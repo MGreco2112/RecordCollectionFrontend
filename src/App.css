@@ -36,8 +36,10 @@
     transform: rotate(360deg);
   }
 
-  div {
-    display: flex;
-  }
   
+  
+}
+
+div {
+  display: flex;
 }
