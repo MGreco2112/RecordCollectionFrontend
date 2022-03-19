@@ -5,7 +5,7 @@ const Navbar = (props) => {
     return (
         <Fragment>
         <div style={{
-            backgroundColor: '#5AE8F7',
+            backgroundColor: '#9EEBFA',
             position: "fixed",
             width: "100%",
             zIndex: 9999,
