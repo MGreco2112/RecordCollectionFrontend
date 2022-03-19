@@ -6,7 +6,7 @@ import Navbar from '../navbar/Navbar';
 const AppRouter = (props) => {
     return (
         // when NavBar is finished elements inside will go into Navbar
-        <div>
+        <div style={{width: "100%", flexDirection: "column"}}>
             <Navbar/>
             <Routes>
                 <Route path="/" element={<Home/>}/>
