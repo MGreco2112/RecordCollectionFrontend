@@ -5,12 +5,12 @@ import {BrowserRouter} from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        {/* Routes to other Pages */}
-        <AppRouter/>
-      </BrowserRouter>
-    </div>
+    
+    <BrowserRouter>
+      {/* Routes to other Pages */}
+      <AppRouter/>
+    </BrowserRouter>
+    
   );
 }
 
