@@ -29,13 +29,15 @@ const Login = (props) => {
 
     const onSubmit = () => {
         const data = currentUser;
-
+        
         _loginUser(data);
     }
 
     const _loginUser = async (data) => {
         try {
+            
             const res = await axios.post(`${apiHostURL}/api/auth/signin`, data);
+
 
             setAuth({
                 token: res.data.token,
@@ -46,7 +48,7 @@ const Login = (props) => {
 
             navigate("/")
         } catch (err) {
-            console.error(err.message);
+            console.error(err.response ? err.response.data : err.message);
         }
     }
 
