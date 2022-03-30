@@ -1,6 +1,6 @@
 import axios from "axios";
-import React from "react";
-import axios from "axios";
+import React, {useState} from "react";
+import Container from "../common/Container";
 import RegisterForm from "./RegisterForm";
 import Splash from "../common/Splash";
 import Signup from "../../assets/loginsignup.jpg"
@@ -47,13 +47,13 @@ const SignUp = (props) => {
 
     const _login = async (data) => {
         try {
-            const res = await axios.post(`${apiHostURL}/api/auth/login`, data);
+            const res = await axios.post(`${apiHostURL}/api/auth/signin`, data);
 
             console.log(res.data);
 
             createCollector(data, res.data.token);
         } catch (err) {
-            console.error(err,response.data);
+            console.error(err.response.data);
         }
     }
 

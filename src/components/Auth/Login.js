@@ -1,11 +1,12 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import axios from "axios";
+import { AuthContext } from "../Providers/AuthProvider";
 import LoginForm from "./LoginForm";
 import Container from "../common/Container";
 import Splash from "../common/Splash";
-import Login from "../../assets/loginsignup.jpg"
+import LoginImg from "../../assets/loginsignup.jpg"
 import { useNavigate } from "react-router-dom";
-import apiHostURL from "../../config";
+import {apiHostURL} from "../../config";
 
 const Login = (props) => {
 
@@ -17,7 +18,7 @@ const Login = (props) => {
 
     const navigate = useNavigate();
 
-    //todo authcontext
+    const [auth, setAuth] = useContext(AuthContext);
 
     const updateForm = (field, value) => {
         setCurrentUser({
@@ -36,7 +37,12 @@ const Login = (props) => {
         try {
             const res = await axios.post(`${apiHostURL}/api/auth/signin`, data);
 
-            //todo set auth
+            setAuth({
+                token: res.data.token,
+                profile: {},
+                roles: res.data.roles,
+
+            })
 
             navigate("/")
         } catch (err) {
@@ -45,7 +51,22 @@ const Login = (props) => {
     }
 
     return (
-        <h1>Login</h1>
+        <Container>
+            <Splash
+            image={LoginImg}
+            style={{
+                height: "20vh",
+                color: "#F1F1F1"
+            }}
+            >
+                <h1>Login</h1>
+            </Splash>
+            <LoginForm
+                currentUser={currentUser}
+                onChange={updateForm}
+                onSubmit={onSubmit}
+            />
+        </Container>
     )
 }
 

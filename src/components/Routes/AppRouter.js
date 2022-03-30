@@ -1,5 +1,7 @@
 import React from "react";
 import {Route, Routes} from 'react-router-dom';
+import Login from "../Auth/Login";
+import Signup from "../Auth/Signup"
 import Home from "../Home/Home";
 import Navbar from '../navbar/Navbar';
 
@@ -10,6 +12,8 @@ const AppRouter = (props) => {
             <Navbar/>
             <Routes>
                 <Route path="/" element={<Home/>}/>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/register" element={<Signup/>}/>
             </Routes>
         </div>
     )

@@ -1,4 +1,1 @@
-const apiHostURL = `localhost:8080`;
-
-
-export default apiHostURL;
+export const apiHostURL = "http://localhost:8080"

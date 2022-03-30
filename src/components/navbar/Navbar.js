@@ -31,6 +31,8 @@ const Navbar = (props) => {
                 alignItems: "center",
             }}>
                 <NavButton to="/" label="Home"/>
+                <NavButton to="/login" label="Login"/>
+                <NavButton to="/register" label="Register"/>
                 
             </div>
         </div>
