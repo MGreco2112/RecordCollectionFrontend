@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useContenxt, Fragment} from "react";
+import React, {useState, useEffect, useContext, Fragment} from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import {AuthContext} from "../Providers/AuthProvider"
 import Button from "../common/Button"
 import Spinner from "../faCommon/Spinner"
-import ApiHostURL from "../../config"
+import {apiHostURL} from "../../config"
 
 const DisplayRecord = (props) => {
 
@@ -15,11 +15,11 @@ const DisplayRecord = (props) => {
 
     const [loading, setLoading] = useState(true);
 
-    const [auth] = useContenxt(AuthContext);
+    const [auth] = useContext(AuthContext);
 
     useEffect(() => {
         const _fetchRecord = async () => {
-                const res = await axios.get(`${ApiHostURL}/api/records/${record.id}`, {
+                const res = await axios.get(`${apiHostURL}/api/records/${record.id}`, {
                     headers : {
                         Authorization: `Bearer ${auth.token}`
                     }
