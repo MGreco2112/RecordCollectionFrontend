@@ -38,6 +38,7 @@ const Login = (props) => {
             
             const res = await axios.post(`${apiHostURL}/api/auth/signin`, data);
 
+            console.log(res.data.token);
 
             setAuth({
                 token: res.data.token,
@@ -46,7 +47,7 @@ const Login = (props) => {
 
             })
 
-            navigate("/")
+            navigate("/records")
         } catch (err) {
             console.error(err.response ? err.response.data : err.message);
         }

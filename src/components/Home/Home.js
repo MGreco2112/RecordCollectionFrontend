@@ -1,9 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
 import Container from '../common/Container';
 import Splash from '../common/Splash';
 import BackgroundImage from '../../assets/homeImage.jpg';
+import { AuthContext } from "../Providers/AuthProvider";
 
 const Home = (props) => {
+
+    const [auth] = useContext(AuthContext);
+
     return (
         <Container style={{
             color: "#F1F1F1",

@@ -4,13 +4,14 @@ import { useParams } from "react-router-dom";
 import {AuthContext} from "../Providers/AuthProvider"
 import Button from "../common/Button"
 import Spinner from "../faCommon/Spinner"
+import Container from "../common/Container";
 import {apiHostURL} from "../../config"
 
 const DisplayRecord = (props) => {
 
     const params = useParams();
     const [record, setRecord] = useState({
-        id: params.recordId,
+        id: params.recId,
     });
 
     const [loading, setLoading] = useState(true);
@@ -19,13 +20,15 @@ const DisplayRecord = (props) => {
 
     useEffect(() => {
         const _fetchRecord = async () => {
+            console.log(params);
+
                 const res = await axios.get(`${apiHostURL}/api/records/${record.id}`, {
                     headers : {
                         Authorization: `Bearer ${auth.token}`
                     }
                 }
             )
-            console.log("Record" + "\n" + res.data);
+            console.log("Record" + "\n" + res.data.name);
             setRecord(res.data);
             setLoading(false);
 
@@ -39,7 +42,19 @@ const DisplayRecord = (props) => {
 
 
     return (
-        <h1>Display Records</h1>
+        <Container>
+            <h1>{record.name}</h1>
+
+            <div style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <img src={record.imageLink}/>
+            </div>
+        </Container>
     )
 }
 

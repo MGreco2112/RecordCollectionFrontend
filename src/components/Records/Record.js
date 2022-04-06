@@ -11,7 +11,7 @@ const Record = (props) => {
     return (
         <BorderCard onClick={onSelect}>
             <p>{name}</p>
-            <p>{artists}</p>
+            {/* <p>{artists}</p> */}
             <p>{year}</p>
         </BorderCard>
     )

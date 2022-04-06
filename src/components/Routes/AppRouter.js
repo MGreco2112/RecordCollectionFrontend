@@ -5,7 +5,7 @@ import Signup from "../Auth/Signup"
 import Home from "../Home/Home";
 import Navbar from '../navbar/Navbar';
 import Records from "../Records/Records";
-import DisplayRecord from "../Records/DisplayRecord"
+import DisplayRecord from "../Records/DisplayRecord";
 
 const AppRouter = (props) => {
     return (

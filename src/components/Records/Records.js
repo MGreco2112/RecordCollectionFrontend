@@ -16,9 +16,10 @@ const Records = (props) => {
     useEffect(() => {
         const _getRecords = async () => {
             try {
+
                 const res = await axios.get(`${apiHostURL}/api/records`, {
                     headers: {
-                        Authorization: `Bearer ${auth.token}`
+                        "Authorization": `Bearer ${auth.token}`
                     }
                 });
 
@@ -26,7 +27,7 @@ const Records = (props) => {
                 setRecords(res.data);
 
             } catch (err) {
-                console.error(err.response.message);
+                console.error(err.response ? err.response.data : err.message);
             }
         }
         setLoading(true);
@@ -45,7 +46,8 @@ const Records = (props) => {
         <Container>
             <h1>Records</h1>
             { loading ?
-                <Spinner/>
+                // <Spinner/>
+                <p>LOADING...</p>
                 :
                 displayRecords()
             }
