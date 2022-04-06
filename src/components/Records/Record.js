@@ -2,7 +2,7 @@ import React from 'react';
 import BorderCard from "../common/BorderCard"
 
 const Record = (props) => {
-    const {id, name, artists, year} = props.record;
+    const {id, name, artists, releaseYear} = props.record;
 
     const onSelect = () => {
         props.onSelect(id);
@@ -11,8 +11,7 @@ const Record = (props) => {
     return (
         <BorderCard onClick={onSelect}>
             <p>{name}</p>
-            {/* <p>{artists}</p> */}
-            <p>{year}</p>
+            <p>{releaseYear}</p>
         </BorderCard>
     )
 }
