@@ -47,7 +47,7 @@ const Login = (props) => {
 
             })
 
-            navigate("/records")
+            navigate("/")
         } catch (err) {
             console.error(err.response ? err.response.data : err.message);
         }
