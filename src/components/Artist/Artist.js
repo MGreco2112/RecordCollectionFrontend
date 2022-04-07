@@ -4,9 +4,9 @@ import { AuthContext } from '../Providers/AuthProvider';
 import { apiHostURL } from '../../config';
 import axios from 'axios';
 
-const Artists = (props) => {
+const Artist = (props) => {
     const [auth] = useContext(AuthContext);
-    const [artists, setArtists] = useState({
+    const [artist, setArtist] = useState({
         artistName: "",
         artistNameFormatted: "",
         members: [],
@@ -17,12 +17,12 @@ const Artists = (props) => {
     const params = useParams();
 
     useEffect(() => {
-        const _getArtists = await axios.get(`${apiHostURL}/api/records/artistByRecordId`)
+        const _getArtist = await axios.get(`${apiHostURL}/api/records/artistByRecordId`)
     })
 
     return (
-        <h1>Artists</h1>
+        <h1>Artist</h1>
     )
 }
 
-export default Artists;
+export default Artist;
