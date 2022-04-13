@@ -8,7 +8,7 @@ const Home = (props) => {
 
     const [auth] = useContext(AuthContext);
 
-    return (
+      return (
         <Container style={{
             color: "#F1F1F1",
             }}

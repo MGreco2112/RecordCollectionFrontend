@@ -42,11 +42,10 @@ const Login = (props) => {
 
             setAuth({
                 token: res.data.token,
-                profile: {},
+                profile: res.data,
                 roles: res.data.roles,
 
             })
-
             navigate("/")
         } catch (err) {
             console.error(err.response ? err.response.data : err.message);
