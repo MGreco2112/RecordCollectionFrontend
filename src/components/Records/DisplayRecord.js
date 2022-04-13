@@ -36,7 +36,7 @@ const DisplayRecord = (props) => {
 
         setLoading(true);
         _fetchRecord();
-
+        console.log(record);
     }, [])
 
 
@@ -45,14 +45,24 @@ const DisplayRecord = (props) => {
         <Container>
             <h1>{record.name}</h1>
 
+            <h2>{record.artist.artistName}</h2>
+
+            <h3>{record.releaseYear}</h3>
+
             <div style={{
                         flex: 1,
-                        flexDirection: 'row',
+                        flexDirection: 'column',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
                         <img src={record.imageLink}/>
+
+                        <p>Track Listing</p>
+                        <p>{record.tracks}</p>
+                        {record.tracks.map(track => {
+                            <p>{track}</p>
+                        })}
             </div>
         </Container>
     )
