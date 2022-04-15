@@ -1,27 +1,31 @@
-import React, { useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { AuthContext } from '../Providers/AuthProvider';
-import { apiHostURL } from '../../config';
-import axios from 'axios';
+import React from "react";
+import BorderCard from "../common/BorderCard";
+import Container from "../common/Container";
 
 const Artist = (props) => {
-    const [auth] = useContext(AuthContext);
-    const [artist, setArtist] = useState({
-        artistName: "",
-        artistNameFormatted: "",
-        members: [],
-        records: [],
+    const {id, artistName, artistNameFormatted, members} = props.artist;
 
-    });
-    const [loading, setLoading] = useState(true);
-    const params = useParams();
+    const onSelect = () => {
+        props.onSelect(artistNameFormatted);
+    }
 
-    useEffect(() => {
-        const _getArtist = await axios.get(`${apiHostURL}/api/records/artistByRecordId`)
-    })
+    const mapMembers = () => {
+        return (
+            members.map(member => {
+                return <p>{member}</p>
+            })
+        )
+    }
 
-    return (
-        <h1>Artist</h1>
+    return(
+        <BorderCard onClick={onSelect} style={{
+            flexDirection: 'column', alignItems: 'center'
+        }}>
+            <h2>{artistName}</h2>
+            <div style={{flexDirection: 'column'}}>
+                {mapMembers()}
+            </div>
+        </BorderCard>
     )
 }
 

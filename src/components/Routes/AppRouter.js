@@ -5,7 +5,9 @@ import Signup from "../Auth/Signup"
 import Home from "../Home/Home";
 import Navbar from '../navbar/Navbar';
 import Records from "../Records/Records";
+import Artists from "../Artist/Artists";
 import DisplayRecord from "../Records/DisplayRecord";
+import DisplayArtist from "../Artist/DisplayArtist";
 
 const AppRouter = (props) => {
     return (
@@ -18,6 +20,8 @@ const AppRouter = (props) => {
                 <Route path="/register" element={<Signup/>}/>
                 <Route path="/records" element={<Records/>}/>
                 <Route path="/records/:recId" element={<DisplayRecord/>}/>
+                <Route path="/artists" element={<Artists/>}/>
+                <Route path="/artists/:artistNameFormatted" element={<DisplayArtist/>}/>
             </Routes>
         </div>
     )
