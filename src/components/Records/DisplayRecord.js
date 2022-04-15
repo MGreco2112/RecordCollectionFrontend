@@ -39,31 +39,83 @@ const DisplayRecord = (props) => {
         console.log(record);
     }, [])
 
+    const formatTracks = () => {
+        return(
+            
+            record.tracks.map(track => {
+                return <p>{track}</p>
+            })
+        )
+    }
+
+    const formatCollectors = () => {
+        return(    
+            record.collectors.map(collector => {
+                return <p>{collector.name}</p>
+            })
+        )    
+    }
+
+    const formatComments = () => {
+        return(
+            record.comments.map(comment => {
+                return <p>{"Collector: " + comment.collector.name + ", Comment: "} {comment.userComment}</p>
+            })
+        )
+    }
+
+
+    const formatPage = () => {
+        return(
+            <Container>
+                <h1>{record.name}</h1>
+
+                <h2>{record.artist.artistName}</h2>
+
+                <h3>{record.releaseYear}</h3>
+
+                <div style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                    <img src={record.imageLink}/>
+
+                    <h2>Track Listing:</h2>
+                    {formatTracks()}
+
+                    <div style={{
+                        flexDirection: 'row'
+                    }}>
+                        <div style={{flexDirection: 'column', alignItems: 'center'}}>
+                            <h3>Record In Collections Of:</h3>
+                            {formatCollectors()}
+                        </div>
+                        <div style={{flexDirection: 'column', alignItems: 'center'}}>
+                            <h3>User Comments:</h3>
+                            {formatComments()}
+                        </div>
+                    </div>
+                            
+                </div>
+            </Container>
+            
+        )
+    }
 
 
     return (
+
         <Container>
-            <h1>{record.name}</h1>
 
-            <h2>{record.artist.artistName}</h2>
-
-            <h3>{record.releaseYear}</h3>
-
-            <div style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}>
-                        <img src={record.imageLink}/>
-
-                        <p>Track Listing</p>
-                        <p>{record.tracks}</p>
-                        {record.tracks.map(track => {
-                            <p>{track}</p>
-                        })}
-            </div>
+            {loading ?
+                <p>LOADING...</p>
+                :
+                formatPage()
+            }
+            
         </Container>
     )
 }
