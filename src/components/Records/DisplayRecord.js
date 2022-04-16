@@ -1,15 +1,18 @@
 import React, {useState, useEffect, useContext, Fragment} from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {AuthContext} from "../Providers/AuthProvider"
 import Button from "../common/Button"
 import Spinner from "../faCommon/Spinner"
+import { Navigate } from "react-router-dom";
+import Artist from "../Artist/Artist";
 import Container from "../common/Container";
 import {apiHostURL} from "../../config"
 
 const DisplayRecord = (props) => {
 
     const params = useParams();
+    const navigate = useNavigate();
     const [record, setRecord] = useState({
         id: params.recId,
     });
@@ -64,15 +67,20 @@ const DisplayRecord = (props) => {
         )
     }
 
+    const onSelect = () => {
+        navigate(`/artists/${record.artist.artistNameFormatted}`);
+    }
+
 
     const formatPage = () => {
         return(
             <Container>
                 <h1>{record.name}</h1>
-
-                <h2>{record.artist.artistName}</h2>
-
+                
                 <h3>{record.releaseYear}</h3>
+
+                <h3>Artist</h3>
+                <Artist artist={record.artist} key={record.artist.artistNameFormatted} onSelect={onSelect}/>
 
                 <div style={{
                             flex: 1,

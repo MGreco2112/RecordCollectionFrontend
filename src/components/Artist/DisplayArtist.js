@@ -33,26 +33,26 @@ const DisplayArtist = (props) => {
             )
             console.log(res.data);
             setArtist(res.data);
-            setLoading(false);
+            // setLoading(false);
         }
 
-        // const _fetchRecords = async (selArtist) => {
-        //     console.log(artist);
+        const _fetchRecords = async (selArtist) => {
+            console.log(artist);
 
-        //     const res = await axios.get(`${apiHostURL}/api/records/recordByArtist/${params.artistNameFormatted}`, {
-        //         headers : {
-        //             Authorization: `Bearer ${auth.token}`
-        //         }
-        //     })
-        //     console.log(res.data);
-        //     setRecords(res.data);
-        //     setLoading(false);
-        // }
+            const res = await axios.get(`${apiHostURL}/api/records/recordsByArtist/${params.artistNameFormatted}`, {
+                headers : {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            })
+            console.log(res.data);
+            setRecords(res.data);
+            setLoading(false);
+        }
 
 
         setLoading(true);
         _fetchArtist();
-        // _fetchRecords(artist);
+        _fetchRecords(artist);
         console.log(artist);
     }, [])
 
