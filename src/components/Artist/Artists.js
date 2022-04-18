@@ -38,6 +38,7 @@ const Artists = (props) => {
     }
 
     const onSelect = (nameFormatted) => {
+        console.log(nameFormatted);
         navigate(`/artists/${nameFormatted}`);
     }
 

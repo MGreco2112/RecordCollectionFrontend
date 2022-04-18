@@ -19,7 +19,7 @@ const AppRouter = (props) => {
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Signup/>}/>
                 <Route path="/records" element={<Records/>}/>
-                <Route path="/records/:recId" element={<DisplayRecord/>}/>
+                <Route path="/records/:nameFormatted" element={<DisplayRecord/>}/>
                 <Route path="/artists" element={<Artists/>}/>
                 <Route path="/artists/:artistNameFormatted" element={<DisplayArtist/>}/>
             </Routes>

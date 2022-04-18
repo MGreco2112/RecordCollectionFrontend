@@ -14,7 +14,7 @@ const DisplayRecord = (props) => {
     const params = useParams();
     const navigate = useNavigate();
     const [record, setRecord] = useState({
-        id: params.recId,
+        name: params.nameFormatted,
     });
 
     const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ const DisplayRecord = (props) => {
         const _fetchRecord = async () => {
             console.log(params);
 
-                const res = await axios.get(`${apiHostURL}/api/records/${record.id}`, {
+                const res = await axios.get(`${apiHostURL}/api/records/${record.name}`, {
                     headers : {
                         Authorization: `Bearer ${auth.token}`
                     }
