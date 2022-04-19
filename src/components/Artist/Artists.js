@@ -33,13 +33,17 @@ const Artists = (props) => {
     }, [])
 
     const displayArtists = () => {
-        return artists.map(artist => 
-            <Artist artist={artist} key={artist.id} onSelect={onSelect}/>);
+        console.log(artists);
+
+        return artists.map(artist => {
+            console.log(artist.id);
+           return <Artist artist={artist} key={artist.artistNameFormatted} onSelect={onSelect}/>
+        });
     }
 
-    const onSelect = (nameFormatted) => {
-        console.log(nameFormatted);
-        navigate(`/artists/${nameFormatted}`);
+    const onSelect = (id) => {
+        console.log(id);
+        navigate(`/artists/${id}`);
     }
 
     return(

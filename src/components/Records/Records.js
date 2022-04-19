@@ -36,12 +36,15 @@ const Records = (props) => {
 
     const displayRecords = () => {
         console.log(records);
-        return records.map(rec => <Record record={rec} key={rec.nameFormatted} onSelect={onSelect}/>);
+
+        return records.map(rec => {
+            console.log(rec.id);
+            return <Record record={rec} key={rec.id} onSelect={onSelect}/>
+        });
     }
 
-    const onSelect = (nameFormatted) => {
-        console.log(nameFormatted);
-        navigate(`/records/${nameFormatted}`);
+    const onSelect = (id) => {
+        navigate(`/records/${id}`);
     }
 
     return (
