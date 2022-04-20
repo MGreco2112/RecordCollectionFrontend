@@ -3,12 +3,12 @@ import BorderCard from "../common/BorderCard";
 import Container from '../common/Container';
 
 const Record = (props) => {
-    const {id, name, artist, releaseYear} = props.record;
+    const {id, name, nameFormatted, artist, releaseYear} = props.record;
 
     console.log(props.record);
 
     const onSelect = () => {
-        props.onSelect(id);
+        props.onSelect(nameFormatted);
     }
 
     return (

@@ -7,7 +7,10 @@ import Navbar from '../navbar/Navbar';
 import Records from "../Records/Records";
 import Artists from "../Artist/Artists";
 import DisplayRecord from "../Records/DisplayRecord";
+import SearchRecords from "../Records/SearchRecords"
 import DisplayArtist from "../Artist/DisplayArtist";
+import SearchArtists from "../Artist/SearchArtists";
+import DisplayCollector from "../Collector/DisplayCollector";
 
 const AppRouter = (props) => {
     return (
@@ -20,8 +23,11 @@ const AppRouter = (props) => {
                 <Route path="/register" element={<Signup/>}/>
                 <Route path="/records" element={<Records/>}/>
                 <Route path="/records/:nameFormatted" element={<DisplayRecord/>}/>
+                <Route path="/records/record_search" element={<SearchRecords/>}/>
                 <Route path="/artists" element={<Artists/>}/>
                 <Route path="/artists/:artistNameFormatted" element={<DisplayArtist/>}/>
+                <Route path="artists/artist_search" element={<SearchArtists/>}/>
+                <Route path="/collector" element={<DisplayCollector/>}/>
             </Routes>
         </div>
     )

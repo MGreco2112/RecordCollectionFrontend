@@ -25,7 +25,7 @@ const DisplayRecord = (props) => {
         const _fetchRecord = async () => {
             console.log(params);
 
-                const res = await axios.get(`${apiHostURL}/api/records/${record.nameFormatted}`, {
+                const res = await axios.get(`${apiHostURL}/api/records/release/${record.nameFormatted}`, {
                     headers : {
                         Authorization: `Bearer ${auth.token}`
                     }
