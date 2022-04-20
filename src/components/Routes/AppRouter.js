@@ -10,6 +10,7 @@ import DisplayRecord from "../Records/DisplayRecord";
 import SearchRecords from "../Records/SearchRecords"
 import DisplayArtist from "../Artist/DisplayArtist";
 import SearchArtists from "../Artist/SearchArtists";
+import NavCollector from "../Collector/NavCollector";
 import DisplayCollector from "../Collector/DisplayCollector";
 import Search from "../Search/Search";
 
@@ -29,7 +30,8 @@ const AppRouter = (props) => {
                 <Route path="/artists/:artistNameFormatted" element={<DisplayArtist/>}/>
                 <Route path="/artists/artist_search" element={<SearchArtists/>}/>
                 <Route path="/search" element={<Search/>}/>
-                <Route path="/collector" element={<DisplayCollector/>}/>
+                <Route path="/collector" element={<NavCollector/>}/>
+                <Route path="/collector/:username" element={<DisplayCollector/>}/>
             </Routes>
         </div>
     )
