@@ -15,25 +15,22 @@ import { apiHostURL } from "../../config";
 const Search = (props) => {
     const [queryResult, setQueryResult] = useState([]);
 
-    const [searchMode, setSearchMode] = useState(0);
+    const [searchMode, setSearchMode] = useState(50000);
 
     const [loading, setLoading] = useState(true);
 
     const [query, setQuery] = useState('');
 
-    const [searchModeUrl, setsearchModeUrl] = useState(`${apiHostURL}/api/records/search/name/${query}`);
+    const [searchModeUrl, setsearchModeUrl] = useState(0);
 
     const [auth] = useContext(AuthContext);
 
     const navigate = useNavigate();
 
-    const _searchByQuery = async (query) => {
+    const _searchByQuery = async () => {
 
-        if (searchMode === 0) {
-            setsearchModeUrl(`${apiHostURL}/api/records/search/name/${query}`);
-        } else if (searchMode === 1) {
-            setsearchModeUrl(`${apiHostURL}/api/records/search/artist_name/${query}`);
-        }
+        console.log(searchMode);
+        console.log(searchModeUrl);
 
         try {
             const res = await axios.get(searchModeUrl, {
@@ -41,6 +38,7 @@ const Search = (props) => {
                     Authorization: `Bearer ${auth.token}`
                 }
             })
+            console.log(res.data);
             setQueryResult(res.data);
             setLoading(false);
         } catch (err) {
@@ -48,18 +46,40 @@ const Search = (props) => {
         }
     }
 
+    const chooseSearchModeUrl = () => {
+        console.log(searchMode);
+
+        if (searchMode == 0) {
+            console.log(query);
+            setsearchModeUrl(`${apiHostURL}/api/records/search/name/${query}`);
+        } else if (searchMode == 1) {
+            setsearchModeUrl(`${apiHostURL}/api/records/search/artist_name/${query}`);
+        }
+
+        console.log(searchModeUrl);
+    }
+
     const handleSubmit = (e) => {
         setQuery(query);
-        console.log(query);
-        _searchByQuery(query);
+        // console.log(query);
+        _searchByQuery();
     }
 
     const displayResults = (queryResult) => {
-        if (searchMode === 0) {
+
+        // if (queryResult.length === 0) {
+        //     return(
+        //         <p>No results found, try again</p>
+        //     )
+        // }
+
+        console.log(queryResult);
+
+        if (searchMode == 1) {
             return queryResult.map(record => {
                 return <Record record={record} key={record.id} onSelect={onSelect}/>
             })
-        } else if (searchMode === 1) {
+        } else if (searchMode == 0) {
             return queryResult.map(artist => {
                 return <Artist artist={artist} key={artist.id} onSelect={onSelect}/>
             })
@@ -67,15 +87,16 @@ const Search = (props) => {
     }
 
     const onSelect = (navigateToNameFormatted) => {
-        if (searchMode === 0) {
+        if (searchMode == 1) {
             navigate(`/records/${navigateToNameFormatted}`);
-        } else if (searchMode === 1) {
+        } else if (searchMode == 0) {
             navigate(`/artists/${navigateToNameFormatted}`);
         }
     }
 
-    const onChange = (value) => {
-        setSearchMode(value);
+    const onChange = () => {
+        setSearchMode(document.getElementById('selectQuery').value);
+        chooseSearchModeUrl();
     }
 
     return(
@@ -90,10 +111,13 @@ const Search = (props) => {
                             value={query}
                         />
                         <Select 
+                            id={'selectQuery'}
                             onChange={onChange}
+                            // placeholder={document.getElementById('defaultOption')}
                         >
-                            <option value={0}>Search By Record Name</option>
-                            <option value={1}>Search By Artist Name</option>
+                            <option value={50000} id="defaultOption">Choose A Mode</option>
+                            <option value={0}>Search By Artist Name</option>
+                            <option value={1}>Search By Record Name</option>
                         </Select>
                     </InlineInputContainer>
                     <InlineInputContainer>

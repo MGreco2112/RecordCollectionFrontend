@@ -17,6 +17,8 @@ const DisplayCollector = (props) => {
 
     useEffect(() => {
         const _fetchCollector = async () => {
+            //todo refactor this call to use a param and new route to get collector by username;
+
             const res = await axios.get(`${apiHostURL}/api/collectors/currentCollector`, {
                 headers: {
                     Authorization: `Bearer ${auth.token}`
@@ -64,7 +66,7 @@ const DisplayCollector = (props) => {
 
     const displayRecords = () => {
         
-            if (collector.records.length != 0) {
+            if (collector.records.length !== 0) {
 
                 <h3>Records Owned:</h3>
                 {return collector.records.map(record => {
@@ -74,7 +76,7 @@ const DisplayCollector = (props) => {
     }
 
     const formatComments = () => {
-        if (collector.comments.length != 0) {
+        if (collector.comments.length !== 0) {
                 <h3>Comments On Record:</h3>
             return(
                 collector.comments.map(comment => {
