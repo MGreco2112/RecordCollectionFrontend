@@ -110,6 +110,7 @@ const Search = (props) => {
                             onChange={e => setQuery(e.target.value)}
                             value={query}
                         />
+                        {/* Switch Select to Radio Button React Element */}
                         <Select 
                             id={'selectQuery'}
                             onChange={onChange}
