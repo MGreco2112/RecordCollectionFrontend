@@ -109,7 +109,7 @@ const Search = (props) => {
                                                         )}
                             value={searchQueryUrl.query}
                         />
-                        <Button style={{}}>Search</Button>
+                        <Button>Search</Button>
                         <Radio id="Artist" name="routeSel" value={0} label={"Search By Artist"} onClick={onClick}/>
                         <Radio id="Record" name="routeSel" value={1} label={"Search By Record"} onClick={onClick}/>
                     </InlineInputContainer>
