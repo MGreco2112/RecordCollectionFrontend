@@ -5,8 +5,11 @@ import Container from "../common/Container";
 import { AuthContext } from "../Providers/AuthProvider";
 import Record from "../Records/Record";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const DisplayCollector = (props) => {
+    const params = useParams();
+
     const [collector, setCollector] = useState({});
 
     const [loading, setLoading] = useState(true);
@@ -17,9 +20,8 @@ const DisplayCollector = (props) => {
 
     useEffect(() => {
         const _fetchCollector = async () => {
-            //todo refactor this call to use a param and new route to get collector by username;
 
-            const res = await axios.get(`${apiHostURL}/api/collectors/currentCollector`, {
+            const res = await axios.get(`${apiHostURL}/api/collectors/username/${params.username}`, {
                 headers: {
                     Authorization: `Bearer ${auth.token}`
                 }
