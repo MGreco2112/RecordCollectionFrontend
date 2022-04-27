@@ -2,8 +2,8 @@ import React, {useState, useContext, useEffect} from "react";
 import axios from "axios";
 import Button from "../common/Button";
 import Form from "../common/Form";
-import Select from "../common/Select";
 import Input from "../common/Input";
+import Radio from "../common/Radio";
 import InlineInputContainer from "../common/InlineInputContainer";
 import Container from "../common/Container";
 import Record from "../Records/Record";
@@ -12,28 +12,35 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
 import { apiHostURL } from "../../config";
 
+
 const Search = (props) => {
     const [queryResult, setQueryResult] = useState([]);
 
-    const [searchMode, setSearchMode] = useState(50000);
-
     const [loading, setLoading] = useState(true);
 
-    const [query, setQuery] = useState('');
-
-    const [searchModeUrl, setsearchModeUrl] = useState(0);
-
     const [auth] = useContext(AuthContext);
+
+    const [searchQueryUrl, setSearchQueryUrl] = useState({
+        query: "",
+        searchMode: 0,
+    });
 
     const navigate = useNavigate();
 
     const _searchByQuery = async () => {
-
-        console.log(searchMode);
-        console.log(searchModeUrl);
-
+            console.log(true);
         try {
-            const res = await axios.get(searchModeUrl, {
+            let searchUrl = "";
+
+            switch (searchQueryUrl.searchMode) {
+                case "0":
+                    searchUrl = `${apiHostURL}/api/records/search/artist_name/${searchQueryUrl.query}`
+                    break;
+                default:
+                    searchUrl = `${apiHostURL}/api/records/search/name/${searchQueryUrl.query}`
+            }
+
+            const res = await axios.get(searchUrl, {
                 headers: {
                     Authorization: `Bearer ${auth.token}`
                 }
@@ -46,40 +53,33 @@ const Search = (props) => {
         }
     }
 
-    const chooseSearchModeUrl = () => {
-        console.log(searchMode);
-
-        if (searchMode == 0) {
-            console.log(query);
-            setsearchModeUrl(`${apiHostURL}/api/records/search/name/${query}`);
-        } else if (searchMode == 1) {
-            setsearchModeUrl(`${apiHostURL}/api/records/search/artist_name/${query}`);
-        }
-
-        console.log(searchModeUrl);
+    const handleSubmit = (e) => {
+        _searchByQuery();
     }
 
-    const handleSubmit = (e) => {
-        setQuery(query);
-        // console.log(query);
-        _searchByQuery();
+    const onClick = () => {
+        const checkedButtons = document.getElementsByName('routeSel');
+        console.log(checkedButtons);
+        for (let i = 0; i < checkedButtons.length; i++) {
+            if (checkedButtons[i].checked) {
+                console.log(checkedButtons[i].value + " checked Button check");
+                setSearchQueryUrl({
+                                    ...searchQueryUrl,
+                                    searchMode: checkedButtons[i].value,
+                                }
+                            )
+                return;
+            }
+        }
     }
 
     const displayResults = (queryResult) => {
 
-        // if (queryResult.length === 0) {
-        //     return(
-        //         <p>No results found, try again</p>
-        //     )
-        // }
-
-        console.log(queryResult);
-
-        if (searchMode == 1) {
+        if (searchQueryUrl.searchMode == 1) {
             return queryResult.map(record => {
                 return <Record record={record} key={record.id} onSelect={onSelect}/>
             })
-        } else if (searchMode == 0) {
+        } else if (searchQueryUrl.searchMode == 0) {
             return queryResult.map(artist => {
                 return <Artist artist={artist} key={artist.id} onSelect={onSelect}/>
             })
@@ -87,43 +87,33 @@ const Search = (props) => {
     }
 
     const onSelect = (navigateToNameFormatted) => {
-        if (searchMode == 1) {
+        if (searchQueryUrl.searchMode == 1) {
             navigate(`/records/${navigateToNameFormatted}`);
-        } else if (searchMode == 0) {
+        } else if (searchQueryUrl.searchMode == 0) {
             navigate(`/artists/${navigateToNameFormatted}`);
         }
     }
 
-    const onChange = () => {
-        setSearchMode(document.getElementById('selectQuery').value);
-        chooseSearchModeUrl();
-    }
-
     return(
-        <Container>
+        <Container style={{maxHeight: ''}}>
             {loading ?
                 <Form onSubmit={handleSubmit}>
                     <InlineInputContainer>
                         <Input
                             id="query"
                             placeholder="Enter a Search Query"
-                            onChange={e => setQuery(e.target.value)}
-                            value={query}
+                            onChange={e => setSearchQueryUrl({
+                                                                ...searchQueryUrl,
+                                                                query: e.target.value
+                                                            }
+                                                        )}
+                            value={searchQueryUrl.query}
                         />
-                        {/* Switch Select to Radio Button React Element */}
-                        <Select 
-                            id={'selectQuery'}
-                            onChange={onChange}
-                            // placeholder={document.getElementById('defaultOption')}
-                        >
-                            <option value={50000} id="defaultOption">Choose A Mode</option>
-                            <option value={0}>Search By Artist Name</option>
-                            <option value={1}>Search By Record Name</option>
-                        </Select>
+                        <Button style={{}}>Search</Button>
+                        <Radio id="Artist" name="routeSel" value={0} label={"Search By Artist"} onClick={onClick}/>
+                        <Radio id="Record" name="routeSel" value={1} label={"Search By Record"} onClick={onClick}/>
                     </InlineInputContainer>
-                    <InlineInputContainer>
-                        <Button>Search</Button>
-                    </InlineInputContainer>
+                   
                 </Form>
                 :
                 displayResults(queryResult)
