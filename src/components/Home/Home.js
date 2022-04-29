@@ -12,8 +12,8 @@ const Home = (props) => {
         if (auth.token != null) {
             if (localStorage['Token'] == undefined) {
                 localStorage.setItem('Token', JSON.stringify(auth.token));
-                localStorage.setItem('Profile', JSON.stringify({"id": JSON.stringify(auth.profile.id),
-                    "username": JSON.stringify(auth.profile.username)}));
+                localStorage.setItem('Profile', JSON.stringify({"id": auth.profile.id,
+                    "username": auth.profile.username}));
                 localStorage.setItem('Roles', JSON.stringify(auth.roles));
             } else {
                 localStorage.removeItem('Token');
@@ -21,8 +21,8 @@ const Home = (props) => {
                 localStorage.removeItem('Roles');
                 
                 localStorage.setItem('Token', JSON.stringify(auth.token));
-                localStorage.setItem('Profile', JSON.stringify({"id": JSON.stringify(auth.profile.id),
-                    "username": JSON.stringify(auth.profile.username)}));
+                localStorage.setItem('Profile', JSON.stringify({"id": auth.profile.id,
+                    "username": auth.profile.username}));
                 localStorage.setItem('Roles', JSON.stringify(auth.roles));
             }
         

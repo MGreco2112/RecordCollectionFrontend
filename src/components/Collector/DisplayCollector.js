@@ -33,15 +33,10 @@ const DisplayCollector = (props) => {
         }
         setLoading(true);
         _fetchCollector();
-        console.log(collector);
+    
     }, []);
 
-    /*
-        name
-        records
-        comments
-        recieved/sent offers
-    */
+
 
     const formatPage = () => {
         return(
@@ -98,7 +93,6 @@ const DisplayCollector = (props) => {
 
     return(
         <Container>
-            <h1>DisplayCollector</h1>
             {loading ?
                 <p>LOADING...</p>
                 :

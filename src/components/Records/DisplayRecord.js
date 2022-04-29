@@ -8,7 +8,10 @@ import { Navigate } from "react-router-dom";
 import Artist from "../Artist/Artist";
 import Container from "../common/Container";
 import {apiHostURL} from "../../config"
+import Form from "../common/Form";
 import Collector from "../Collector/Collector";
+import Checkbox from "../common/Checkbox";
+import InlineInputContainer from "../common/InlineInputContainer";
 
 const DisplayRecord = (props) => {
 
@@ -22,17 +25,25 @@ const DisplayRecord = (props) => {
 
     const [auth] = useContext(AuthContext);
 
+    const [collectorRecords, setCollectorRecords] = useState([]);
+
     useEffect(() => {
         const _fetchRecord = async () => {
-            console.log(params);
 
-                const res = await axios.get(`${apiHostURL}/api/records/release/${record.nameFormatted}`, {
-                    headers : {
-                        Authorization: `Bearer ${auth.token}`
-                    }
+            const res = await axios.get(`${apiHostURL}/api/records/release/${record.nameFormatted}`, {
+                headers : {
+                    Authorization: `Bearer ${auth.token}`
                 }
-            )
-            console.log("Record" + "\n" + res.data.name);
+            });
+
+            const collectorRecords = await axios.get(`${apiHostURL}/api/collectors/currentCollector`, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            })
+
+            console.log(collectorRecords.data.records);
+            setCollectorRecords(collectorRecords.data.records);
             setRecord(res.data);
             setLoading(false);
 
@@ -66,6 +77,55 @@ const DisplayRecord = (props) => {
                 return <p>{"Collector: " + comment.collector.name + ", Comment: "} {comment.userComment}</p>
             })
         )
+    }
+
+    const formatCheckbox = () => {
+        let isChecked = false;
+
+        for (let i = 0; i < collectorRecords.length; i++) {
+            if (collectorRecords[i].name === record.name) {
+                isChecked = true;
+                break;
+            }
+        }
+
+        return(
+            <Form onSubmit={_handleSubmit}>
+                <InlineInputContainer>
+                    <Checkbox id={"box1"} name={"ownedRecord"} value={true}
+                        checked={isChecked} label={"In your Collection"}/>
+                    <Button>Submit</Button>
+                </InlineInputContainer>
+            </Form>
+        )
+    }
+
+    const _handleSubmit = async () => {
+        if (document.getElementById("box1").checked) {
+            console.log("was checked when submitted");
+            try {
+                const res = await axios.post(`${apiHostURL}/api/collectors/record/${record.id}`, {
+                        headers: {
+                            Authorization: `Bearer ${auth.token}`
+                        }
+                });
+            } catch (err) {
+                console.error(err.response ? err.response.data : err.message);
+            }
+        } else {
+            console.log("wasn't cheched when submitted");
+            try {
+                const res = await axios.delete(`${apiHostURL}/api/collectors/delete/record/${record.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${auth.token}`
+                    }
+                });
+            } catch (err) {
+                console.error(err.response ? err.response.data : err.message);
+            }
+        }
+
+        navigate(`/collector/${auth.profile.username}`);
     }
 
     const onSelect = () => {
@@ -109,6 +169,9 @@ const DisplayRecord = (props) => {
                         <div style={{flexDirection: 'column', alignItems: 'center'}}>
                             <h3>User Comments:</h3>
                             {formatComments()}
+                        </div>
+                        <div style={{flexDirection: 'column', alignItems: 'center'}}>
+                            {formatCheckbox()}
                         </div>
                     </div>
                             
