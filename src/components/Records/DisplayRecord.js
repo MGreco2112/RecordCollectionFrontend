@@ -8,6 +8,7 @@ import { Navigate } from "react-router-dom";
 import Artist from "../Artist/Artist";
 import Container from "../common/Container";
 import {apiHostURL} from "../../config"
+import Collector from "../Collector/Collector";
 
 const DisplayRecord = (props) => {
 
@@ -54,7 +55,7 @@ const DisplayRecord = (props) => {
     const formatCollectors = () => {
         return(    
             record.collectors.map(collector => {
-                return <p>{collector.name}</p>
+                return <Collector collector={collector} key={collector.id} onSelect={onSelectCollector}/>
             })
         )    
     }
@@ -69,6 +70,10 @@ const DisplayRecord = (props) => {
 
     const onSelect = () => {
         navigate(`/artists/${record.artist.artistNameFormatted}`);
+    }
+
+    const onSelectCollector = (user) => {
+        navigate(`/collector/${user.username}`)
     }
 
 

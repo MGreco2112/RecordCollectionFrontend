@@ -38,14 +38,16 @@ const Login = (props) => {
             
             const res = await axios.post(`${apiHostURL}/api/auth/signin`, data);
 
-            console.log(res.data.token);
-
             setAuth({
                 token: res.data.token,
-                profile: res.data,
+                profile: {
+                    id: res.data.id,
+                    username: res.data.username
+                },
                 roles: res.data.roles,
 
             })
+
             navigate("/")
         } catch (err) {
             console.error(err.response ? err.response.data : err.message);

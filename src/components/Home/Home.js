@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import Container from '../common/Container';
 import Splash from '../common/Splash';
 import BackgroundImage from '../../assets/homeImage.jpg';
@@ -6,7 +6,39 @@ import { AuthContext } from "../Providers/AuthProvider";
 
 const Home = (props) => {
 
-    const [auth] = useContext(AuthContext);
+    const [auth, setAuth] = useContext(AuthContext);
+
+    useEffect(() => {
+        if (auth.token != null) {
+            if (localStorage['Token'] == undefined) {
+                localStorage.setItem('Token', JSON.stringify(auth.token));
+                localStorage.setItem('Profile', JSON.stringify({"id": JSON.stringify(auth.profile.id),
+                    "username": JSON.stringify(auth.profile.username)}));
+                localStorage.setItem('Roles', JSON.stringify(auth.roles));
+            } else {
+                localStorage.removeItem('Token');
+                localStorage.removeItem('Profile');
+                localStorage.removeItem('Roles');
+                
+                localStorage.setItem('Token', JSON.stringify(auth.token));
+                localStorage.setItem('Profile', JSON.stringify({"id": JSON.stringify(auth.profile.id),
+                    "username": JSON.stringify(auth.profile.username)}));
+                localStorage.setItem('Roles', JSON.stringify(auth.roles));
+            }
+        
+        } else if (localStorage['Token'] != undefined){
+
+            setAuth({
+                token: JSON.parse(localStorage['Token']),
+                profile: {
+                    id: JSON.parse(localStorage['Profile']).id,
+                    username: JSON.parse(localStorage['Profile']).username  
+                },
+                roles: JSON.parse(localStorage['Roles'])
+            });
+        }
+    }, []);
+
 
       return (
         <Container style={{
