@@ -66,7 +66,7 @@ const DisplayRecord = (props) => {
     const formatCollectors = () => {
         return(    
             record.collectors.map(collector => {
-                return <Collector collector={collector} key={collector.id} onSelect={onSelectCollector}/>
+                return <Collector collector={collector} key={collector.name} onSelect={onSelectCollector}/>
             })
         )    
     }
@@ -102,13 +102,19 @@ const DisplayRecord = (props) => {
 
     const _handleSubmit = async () => {
         if (document.getElementById("box1").checked) {
+
+            const sendRecord = {
+                id: record.id
+            };
+
             console.log("was checked when submitted");
+            console.log(`Auth Token: ${auth.token}`);
             try {
-                const res = await axios.post(`${apiHostURL}/api/collectors/record/${record.id}`, {
-                        headers: {
-                            Authorization: `Bearer ${auth.token}`
-                        }
-                });
+                const res  = await axios.post(`${apiHostURL}/api/collectors/record/add`, sendRecord, {
+                    headers: {
+                        Authorization: `Bearer ${auth.token}`
+                    }
+                })
             } catch (err) {
                 console.error(err.response ? err.response.data : err.message);
             }
