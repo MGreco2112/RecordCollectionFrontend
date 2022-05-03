@@ -31,8 +31,11 @@ const Records = (props) => {
             }
         }
         setLoading(true);
+        if (!auth.token) {
+            return;
+        }
         _getRecords();
-    }, [])
+    }, [auth]);
 
     const displayRecords = () => {
         console.log(records);

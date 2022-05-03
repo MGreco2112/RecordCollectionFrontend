@@ -29,8 +29,11 @@ const Artists = (props) => {
             }
         }
         setLoading(true);
+        if (!auth.token) {
+            return;
+        }
         _getArtists();
-    }, [])
+    }, [auth])
 
     const displayArtists = () => {
         console.log(artists);

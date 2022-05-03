@@ -18,7 +18,7 @@ const Login = (props) => {
 
     const navigate = useNavigate();
 
-    const [auth, setAuth] = useContext(AuthContext);
+    const [auth, setAuth, saveAuth] = useContext(AuthContext);
 
     const updateForm = (field, value) => {
         setCurrentUser({
@@ -48,7 +48,8 @@ const Login = (props) => {
 
             })
 
-            navigate("/")
+            saveAuth(res.data);
+            navigate("/");
         } catch (err) {
             console.error(err.response ? err.response.data : err.message);
         }
