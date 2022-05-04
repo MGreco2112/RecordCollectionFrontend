@@ -6,37 +6,6 @@ import { AuthContext } from "../Providers/AuthProvider";
 
 const Home = (props) => {
 
-    const [auth, setAuth, saveAuth] = useContext(AuthContext);
-
-    // useEffect(() => {
-    //     if (auth.token != null) {
-    //         if (localStorage['Token'] != undefined) {
-                
-    //             localStorage.removeItem('Token');
-    //             localStorage.removeItem('Profile');
-    //             localStorage.removeItem('Roles');
-                
-    //         }
-
-    //         localStorage.setItem('Token', JSON.stringify(auth.token));
-    //         localStorage.setItem('Profile', JSON.stringify({"id": auth.profile.id,
-    //             "username": auth.profile.username}));
-    //         localStorage.setItem('Roles', JSON.stringify(auth.roles));
-        
-    //     } else if (localStorage['Token'] != undefined){
-
-    //         setAuth({
-    //             token: JSON.parse(localStorage['Token']),
-    //             profile: {
-    //                 id: JSON.parse(localStorage['Profile']).id,
-    //                 username: JSON.parse(localStorage['Profile']).username  
-    //             },
-    //             roles: JSON.parse(localStorage['Roles'])
-    //         });
-    //     }
-    // }, []);
-
-
       return (
         <Container style={{
             color: "#F1F1F1",
