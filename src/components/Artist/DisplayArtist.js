@@ -54,7 +54,7 @@ const DisplayArtist = (props) => {
         _fetchArtist();
         _fetchRecords(artist);
         console.log(artist);
-    }, [])
+    }, [auth]);
 
     const onSelect = (recordId) => {
         navigate(`/records/${recordId}`);

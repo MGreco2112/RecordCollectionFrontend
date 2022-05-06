@@ -2,9 +2,8 @@ import React, {useState, useEffect, useContext, Fragment} from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import {AuthContext} from "../Providers/AuthProvider"
-import Button from "../common/Button"
-import Spinner from "../faCommon/Spinner"
-import { Navigate } from "react-router-dom";
+import Button from "../common/Button";
+import Input from "../common/Input";
 import Artist from "../Artist/Artist";
 import Container from "../common/Container";
 import {apiHostURL} from "../../config"
@@ -17,8 +16,15 @@ const DisplayRecord = (props) => {
 
     const params = useParams();
     const navigate = useNavigate();
+
+    let postableComment = true;
+
     const [record, setRecord] = useState({
         nameFormatted: params.nameFormatted,
+    });
+
+    const [newComment, setNewComment] = useState({
+        userComment: ""
     });
 
     const [loading, setLoading] = useState(true);
@@ -26,6 +32,8 @@ const DisplayRecord = (props) => {
     const [auth] = useContext(AuthContext);
 
     const [collectorRecords, setCollectorRecords] = useState([]);
+
+    const [collector, setCollector] = useState({});
 
     useEffect(() => {
         const _fetchRecord = async () => {
@@ -44,6 +52,7 @@ const DisplayRecord = (props) => {
 
             console.log(collectorRecords.data.records);
             setCollectorRecords(collectorRecords.data.records);
+            setCollector(collectorRecords.data);
             setRecord(res.data);
             setLoading(false);
 
@@ -52,7 +61,21 @@ const DisplayRecord = (props) => {
         setLoading(true);
         _fetchRecord();
         console.log(record);
-    }, [])
+    }, [auth]);
+
+    const _postComment = async (newComment) => {
+        try {
+            const res = await axios.post(`${apiHostURL}/api/collectors/comment`, newComment, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            })
+
+            navigate(`/collector/${auth.profile.username}`)
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
 
     const formatTracks = () => {
         return(
@@ -61,6 +84,27 @@ const DisplayRecord = (props) => {
                 return <p>{track}</p>
             })
         )
+    }
+
+    const onChange = (field, value) => {
+        setNewComment({
+            ...newComment,
+            [field]: value
+        });
+    }
+
+    const handleChange = (e) => {
+        onChange(e.target.id, e.target.value);
+    }
+
+    const onSubmit = () => {
+        const data = newComment;
+
+        data.record = {
+            name: record.name
+        };
+
+        _postComment(data);
     }
 
     const formatCollectors = () => {
@@ -74,6 +118,9 @@ const DisplayRecord = (props) => {
     const formatComments = () => {
         return(
             record.comments.map(comment => {
+                if (comment.collector.name === collector.name) {
+                    postableComment = false;
+                }
                 return <p>{"Collector: " + comment.collector.name + ", Comment: "} {comment.userComment}</p>
             })
         )
@@ -142,6 +189,27 @@ const DisplayRecord = (props) => {
         navigate(`/collector/${user.username}`)
     }
 
+    const onClick = async () => {
+
+        const data = {
+            "record": {
+                "id": record.id
+            }
+        };
+
+        try {
+            const res = await axios.delete(`http://localhost:8080/api/collectors/delete/comment/${record.id}`, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                },
+
+            });
+
+            navigate(`/collector/${auth.profile.username}`);
+        } catch (err) {
+            console.error(err.message ? err.message : err.response);
+        }
+    }
 
     const formatPage = () => {
         return(
@@ -180,6 +248,32 @@ const DisplayRecord = (props) => {
                             {formatCheckbox()}
                         </div>
                     </div>
+                
+                    { postableComment ?
+
+                            <Container>
+                            <h2>Post A Comment</h2>
+                            <Form onSubmit={onSubmit} style={{marginTop: '1em'}}>
+                                <InlineInputContainer>
+                                    <Input
+                                        name="userComment"
+                                        id="userComment"
+                                        value={newComment.userComment}
+                                        placeholder={"Write New Comment Here"}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </InlineInputContainer>
+                                <Button>Submit</Button>
+                            </Form>
+                        </Container>
+
+                        :
+
+                        <Container>
+                            <Button onClick={onClick}>Delete Comment</Button>
+                        </Container>
+                    }
                             
                 </div>
             </Container>

@@ -34,7 +34,7 @@ const DisplayCollector = (props) => {
         setLoading(true);
         _fetchCollector();
     
-    }, []);
+    }, [auth]);
 
 
 

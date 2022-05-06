@@ -16,19 +16,30 @@ const NewComment = (props) => {
 
     const navigate = useNavigate();
 
-    const newComment = useState({
-        record: {
-                name: ""
-            },
+    const [newComment, setNewComment] = useState({
+        name: "",
         userComment: ""
     });
+
+    const onChange = (field, value) => {
+        setNewComment({
+            ...newComment,
+            [field]: value
+        });
+    }
 
     const handleChange = (e) => {
         onChange(e.target.id, e.target.value);
     }
 
     const onSubmit = () => {
-        _postComment(newComment);
+        const data = newComment;
+
+        data.record = {
+            name: newComment.name
+        };
+
+        _postComment(data);
     }
 
     const _postComment = async (newComment) => {
@@ -45,36 +56,32 @@ const NewComment = (props) => {
         }
     }
 
-    const displayCommentForm = () => {
-        <Container>
-            <Form onSubmit={onSubmit} style={{marginTop: '1em'}}>
-                <InlineInputContainer>
-                    <Input
-                        name="comment"
-                        id="comment"
-                        value={newComment.userComment}
-                        placeholder={"Write New Comment Here"}
-                        onChange={handleChange}
-                        required
-                    />
-                </InlineInputContainer>
-                <InlineInputContainer>
-                    <Input
-                        name="record"
-                        id="record"
-                        value={newComment.record.name}
-                        placeholder={"Name a Record"}
-                        onChange={handleChange}
-                        required
-                    />
-                </InlineInputContainer>
-                <Button>Submit</Button>
-            </Form>
-        </Container>
-    }
-
     return(
-        displayCommentForm()
+        <Container>
+                <Form onSubmit={onSubmit} style={{marginTop: '1em'}}>
+                    <InlineInputContainer>
+                        <Input
+                            name="userComment"
+                            id="userComment"
+                            value={newComment.userComment}
+                            placeholder={"Write New Comment Here"}
+                            onChange={handleChange}
+                            required
+                        />
+                    </InlineInputContainer>
+                    <InlineInputContainer>
+                        <Input
+                            name="name"
+                            id="name"
+                            value={newComment.name}
+                            placeholder={"Name a Record"}
+                            onChange={handleChange}
+                            required
+                        />
+                    </InlineInputContainer>
+                    <Button>Submit</Button>
+                </Form>
+            </Container>
     );
 }
 
