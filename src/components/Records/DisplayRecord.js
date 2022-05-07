@@ -154,8 +154,6 @@ const DisplayRecord = (props) => {
                 id: record.id
             };
 
-            console.log("was checked when submitted");
-            console.log(`Auth Token: ${auth.token}`);
             try {
                 const res  = await axios.post(`${apiHostURL}/api/collectors/record/add`, sendRecord, {
                     headers: {
@@ -166,7 +164,7 @@ const DisplayRecord = (props) => {
                 console.error(err.response ? err.response.data : err.message);
             }
         } else {
-            console.log("wasn't cheched when submitted");
+
             try {
                 const res = await axios.delete(`${apiHostURL}/api/collectors/delete/record/${record.id}`, {
                     headers: {
