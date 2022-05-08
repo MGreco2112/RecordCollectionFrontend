@@ -12,7 +12,7 @@ import DisplayArtist from "../Artist/DisplayArtist";
 import NavCollector from "../Collector/NavCollector";
 import DisplayCollector from "../Collector/DisplayCollector";
 import Search from "../Search/Search";
-import NewComment from "../Posting/NewComment";
+import NewRecord from "../Posting/NewRecord";
 
 const AppRouter = (props) => {
     return (
@@ -24,6 +24,7 @@ const AppRouter = (props) => {
                 <Route path="/login" element={<Login/>}/>
                 <Route path="logout" element={<Logout/>}/>
                 <Route path="/register" element={<Signup/>}/>
+                <Route path="/newRecord" element={<NewRecord/>}/>
                 <Route path="/records" element={<Records/>}/>
                 <Route path="/records/:nameFormatted" element={<DisplayRecord/>}/>
                 <Route path="/artists" element={<Artists/>}/>

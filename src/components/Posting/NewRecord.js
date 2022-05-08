@@ -31,12 +31,35 @@ const NewRecord = (props) => {
         });
     };
 
-    const onSubmit = async (data) => {
+    const handleTracks = (e) => {
+        const tracksFormatted = e.target.value.split(",");
 
-        data.nameFormatted = data.name.replace(" \g", "_\g");
+        setNewRecord({
+            ...newRecord,
+            [e.target.id]: tracksFormatted
+        });
+    };
 
-        console.log(data);
+    const onSubmit = () => {
+        newRecord.nameFormatted = newRecord.name.replaceAll(" ", "_");
+        
+        console.log(newRecord);
 
+        postRecord(newRecord);
+    }
+
+    const postRecord = async (data) => {
+        /*
+        post record to backend
+        Checks if Artist exists by name formatted in backend
+            if so exit conditional
+
+            else
+            post Artist to backend
+            
+        add Artist to Record
+        Navigate to Record page
+        */
         try {
             // const res = await axios.post(`${apiHostURL}/api/records`, data, {
             //     headers: {
@@ -76,15 +99,37 @@ const NewRecord = (props) => {
                 </InlineInputContainer>
                 <InlineInputContainer>
                     <Input
-                        name="name"
-                        id="name"
-                        value={newRecord.name}
-                        placeholder="Record Name"
+                        name="numberOfTracks"
+                        id="numberOfTracks"
+                        value={newRecord.numberOfTracks}
+                        placeholder="Number of Tracks"
                         onChange={handleChange}
                         required
                     />
                 </InlineInputContainer>
-
+                <InlineInputContainer>
+                    <Input
+                        name="tracks"
+                        id="tracks"
+                        value={newRecord.tracks}
+                        placeholder="Enter Tracks separated by Comma"
+                        onChange={handleTracks}
+                        required
+                    />
+                </InlineInputContainer>
+                <InlineInputContainer>
+                <InlineInputContainer>
+                    <Input
+                        name="imageLink"
+                        id="imageLink"
+                        value={newRecord.imageLink}
+                        placeholder="Link To Record Art"
+                        onChange={handleChange}
+                        required
+                    />
+                </InlineInputContainer>
+                </InlineInputContainer>
+                    <Button>Submit</Button>
             </Form>
         </Container>
     )
