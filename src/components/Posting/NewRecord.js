@@ -17,9 +17,11 @@ const NewRecord = (props) => {
 
     const [newRecord, setNewRecord] = useState({
         name: "",
+        artistName: "",
         nameFormatted: "",
         releaseYear: "",
         numberOfTracks: "",
+        unformattedTracks: [],
         tracks: [],
         imageLink: ""
     });
@@ -32,16 +34,18 @@ const NewRecord = (props) => {
     };
 
     const handleTracks = (e) => {
-        const tracksFormatted = e.target.value.split(",");
+        
 
         setNewRecord({
             ...newRecord,
-            [e.target.id]: tracksFormatted
+            [e.target.id]: e.target.value
         });
     };
 
     const onSubmit = () => {
         newRecord.nameFormatted = newRecord.name.replaceAll(" ", "_");
+
+        newRecord.tracks = newRecord.unformattedTracks.split(":");
         
         console.log(newRecord);
 
@@ -61,13 +65,33 @@ const NewRecord = (props) => {
         Navigate to Record page
         */
         try {
-            // const res = await axios.post(`${apiHostURL}/api/records`, data, {
-            //     headers: {
-            //         Authorization: `Bearer ${auth.token}`
-            //     }
-            // });
+            const res = await axios.post(`${apiHostURL}/api/records`, data, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            });
 
-            // navigate(`/records/${res.data.nameFormatted}`);
+            const artistCheck = await axios.get(`${apiHostURL}/api/records/artistExists/${data.artistName}`, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            });
+
+            if (artistCheck.data.length == 0) {
+                //navigate to NewArtist
+            } else {
+                const artistAdd = await axios.post(`${apiHostURL}/api/records/artistAdd`, {recordId: res.data.id, artistId: artistCheck.data[0].id}, {
+                    headers: {
+                        Authorization: `Bearer ${auth.token}`
+                    }
+                });
+
+                navigate(`/records/${res.data.nameFormatted}`);
+            }
+
+
+
+            
         } catch (err) {
             console.error(err.message ? err.message : err.response);
         }
@@ -99,6 +123,16 @@ const NewRecord = (props) => {
                 </InlineInputContainer>
                 <InlineInputContainer>
                     <Input
+                        name="artistName"
+                        id="artistName"
+                        value={newRecord.artistName}
+                        placeholder="Name Of Artist"
+                        onChange={handleChange}
+                        required
+                    />
+                </InlineInputContainer>
+                <InlineInputContainer>
+                    <Input
                         name="numberOfTracks"
                         id="numberOfTracks"
                         value={newRecord.numberOfTracks}
@@ -110,9 +144,9 @@ const NewRecord = (props) => {
                 <InlineInputContainer>
                     <Input
                         name="tracks"
-                        id="tracks"
-                        value={newRecord.tracks}
-                        placeholder="Enter Tracks separated by Comma"
+                        id="unformattedTracks"
+                        value={newRecord.unformattedTracks}
+                        placeholder="Enter Tracks separated by Colon"
                         onChange={handleTracks}
                         required
                     />
