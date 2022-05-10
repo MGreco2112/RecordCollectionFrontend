@@ -33,26 +33,15 @@ const NewRecord = (props) => {
         });
     };
 
-    const handleTracks = (e) => {
-        
-
-        setNewRecord({
-            ...newRecord,
-            [e.target.id]: e.target.value
-        });
-    };
-
     const onSubmit = () => {
         newRecord.nameFormatted = newRecord.name.replaceAll(" ", "_");
 
         newRecord.tracks = newRecord.unformattedTracks.split(":");
         
-        console.log(newRecord);
-
-        postRecord(newRecord);
+        _postRecord(newRecord);
     }
 
-    const postRecord = async (data) => {
+    const _postRecord = async (data) => {
         /*
         post record to backend
         Checks if Artist exists by name formatted in backend
@@ -78,9 +67,14 @@ const NewRecord = (props) => {
             });
 
             if (artistCheck.data.length == 0) {
-                //navigate to NewArtist
+                navigate(`/newArtist/${res.data.id}`)
             } else {
-                const artistAdd = await axios.post(`${apiHostURL}/api/records/artistAdd`, {recordId: res.data.id, artistId: artistCheck.data[0].id}, {
+                const postBody = {
+                    recordId: res.data.id,
+                    artistId: artistCheck.data[0].id
+                }
+
+                const artistAdd = await axios.post(`${apiHostURL}/api/records/artistAdd`, postBody, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`
                     }
@@ -147,7 +141,7 @@ const NewRecord = (props) => {
                         id="unformattedTracks"
                         value={newRecord.unformattedTracks}
                         placeholder="Enter Tracks separated by Colon"
-                        onChange={handleTracks}
+                        onChange={handleChange}
                         required
                     />
                 </InlineInputContainer>

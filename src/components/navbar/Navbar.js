@@ -39,7 +39,7 @@ const Navbar = (props) => {
                         <NavButton to="/search" label="Search"/>
                         <NavButton to="/records" label="See Our Records"/>
                         <NavButton to="/artists" label="See Our Artists"/>
-                        <NavButton to="/newRecord" label="Post A New Record" />
+                        <NavButton to="/newRecord" label="Post A New Record"/>
                         <NavButton to="/collector" label={`${auth.profile.username}`}/>
                         <NavButton to="/logout" label="Logout"/>
                     </Fragment>
