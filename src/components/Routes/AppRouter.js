@@ -14,6 +14,7 @@ import DisplayCollector from "../Collector/DisplayCollector";
 import Search from "../Search/Search";
 import NewRecord from "../Posting/NewRecord";
 import NewArtist from "../Posting/NewArtist";
+import EditRecord from "../Records/EditRecord";
 
 const AppRouter = (props) => {
     return (
@@ -29,6 +30,7 @@ const AppRouter = (props) => {
                 <Route path="newArtist/:recordId" element={<NewArtist/>}/>
                 <Route path="/records" element={<Records/>}/>
                 <Route path="/records/:nameFormatted" element={<DisplayRecord/>}/>
+                <Route path="/records/editRecord/:editRecord" element={<EditRecord/>}/>
                 <Route path="/artists" element={<Artists/>}/>
                 <Route path="/artists/:artistNameFormatted" element={<DisplayArtist/>}/>
                 <Route path="/search" element={<Search/>}/>

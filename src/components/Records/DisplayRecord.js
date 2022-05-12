@@ -209,10 +209,32 @@ const DisplayRecord = (props) => {
         }
     }
 
+    const gotoEdit = () => {
+        navigate(`/records/editRecord/${record.id}`);
+    }
+
     const formatPage = () => {
         return(
             <Container>
-                <h1>{record.name}</h1>
+                <div style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                    
+                    <div style={{
+                        flexDirection: 'row'
+                    }}>
+                        <h1>{record.name}</h1>
+                    </div>
+
+                    
+                    <Button onClick={gotoEdit}>Edit</Button>
+                    
+
+                </div>
                 
                 <h3>{record.releaseYear}</h3>
 

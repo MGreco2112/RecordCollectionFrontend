@@ -3,6 +3,12 @@ import React, { Fragment } from "react";
 const Input = (props) => {
   return (
     <Fragment>
+      <label
+        htmlFor={props.id}
+      >
+        {props.label}
+      </label>
+
       <input
         style={
           props.error
