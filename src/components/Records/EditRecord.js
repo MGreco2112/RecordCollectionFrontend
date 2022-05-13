@@ -24,8 +24,6 @@ const EditRecord = (props) => {
         imageLink: ""
     });
 
-    // const [loading, setLoading] = useState(true);
-
     let loading = true;
 
     const navigate = useNavigate();
@@ -47,7 +45,7 @@ const EditRecord = (props) => {
                 
                 console.log(res.data);
                 setEditRecord(res.data);
-                // setLoading(false);
+
                 loading = false;
     
             } catch (err) {
@@ -67,6 +65,10 @@ const EditRecord = (props) => {
 
     const onSubmit = () => {
         editRecord.nameFormatted = editRecord.name.replaceAll(" ", "_");
+
+        const tracksFormatted = editRecord.tracks.toString().split(",");
+
+        editRecord.tracks = tracksFormatted;
 
         _putRecord(editRecord);
     }

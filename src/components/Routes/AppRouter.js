@@ -15,6 +15,7 @@ import Search from "../Search/Search";
 import NewRecord from "../Posting/NewRecord";
 import NewArtist from "../Posting/NewArtist";
 import EditRecord from "../Records/EditRecord";
+import EditArtist from "../Artist/EditArtist";
 
 const AppRouter = (props) => {
     return (
@@ -33,6 +34,7 @@ const AppRouter = (props) => {
                 <Route path="/records/editRecord/:editRecord" element={<EditRecord/>}/>
                 <Route path="/artists" element={<Artists/>}/>
                 <Route path="/artists/:artistNameFormatted" element={<DisplayArtist/>}/>
+                <Route path="/artists/editArtist/:editArtist" element={<EditArtist/>}/>
                 <Route path="/search" element={<Search/>}/>
                 <Route path="/collector" element={<NavCollector/>}/>
                 <Route path="/collector/:username" element={<DisplayCollector/>}/>

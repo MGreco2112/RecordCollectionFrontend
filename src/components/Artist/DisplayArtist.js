@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Container from '../common/Container';
 import Record from '../Records/Record';
 import axios from 'axios';
+import Button from '../common/Button';
 
 const DisplayArtist = (props) => {
     
@@ -60,13 +61,34 @@ const DisplayArtist = (props) => {
         navigate(`/records/${recordId}`);
     }
 
+    const gotoEdit = () => {
+        navigate(`/artists/editArtist/${artist.id}`);
+    }
+
     return (
         <Container>
             {loading ?
                 <h1>LOADING...</h1>
                 :
                 <Container>
-                    <h1>{artist.artistName}</h1>
+
+                <div style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                    
+                    <div style={{
+                        flexDirection: 'row'
+                    }}>
+                        <h1>{artist.artistName}</h1>
+                    </div>
+
+                        <Button onClick={gotoEdit}>Edit</Button>
+                </div>
+
 
                     <h2>Members:</h2>
 
