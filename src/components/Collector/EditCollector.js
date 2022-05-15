@@ -10,6 +10,13 @@ import Button from "../common/Button";
 import Container from "../common/Container";
 
 const EditCollector = (props) => {
+
+    const [auth] = useContext(AuthContext);
+
+    const [editCollector, setEditCollector] = useState({
+        name: ""
+    });
+
     return(
         <h1>EditCollector</h1>
     )
