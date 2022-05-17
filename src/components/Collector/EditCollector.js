@@ -10,7 +10,6 @@ import Input from "../common/Input";
 import Button from "../common/Button";
 import Container from "../common/Container";
 
-//todo fix password overwrite
 
 const EditCollector = (props) => {
 
@@ -101,6 +100,9 @@ const EditCollector = (props) => {
     }
 
     const onSubmit = () => {
+
+        console.log(editUser);
+        console.log(editCollector);
 
         _putUpdates(editCollector, editUser);
 

@@ -58,8 +58,7 @@ const DisplayCollector = (props) => {
 
                     {auth.profile.username == params.username ?
                     
-                        // <Button onClick={gotoEdit}>Edit</Button>
-                        <h3>Edit Coming Soon!!!</h3>
+                        <Button onClick={gotoEdit}>Edit</Button>
                         :
                         <Container/>
                     }
@@ -93,7 +92,6 @@ const DisplayCollector = (props) => {
             if (collector.records.length !== 0) {
 
                 <h3>Records Owned:</h3>
-                collector.records.sort((a, b) => a - b);
                 {return collector.records.map(record => {
                     return <Record record={record} key={record.name} onSelect={onRecordSelect}/>
                 })}

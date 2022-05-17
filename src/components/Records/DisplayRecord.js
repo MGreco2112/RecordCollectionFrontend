@@ -213,6 +213,10 @@ const DisplayRecord = (props) => {
         navigate(`/records/editRecord/${record.id}`);
     }
 
+    const deleteRecord = () => {
+        navigate(`/records/delete/${record.id}`);
+    }
+
     const formatPage = () => {
         return(
             <Container>
@@ -294,6 +298,8 @@ const DisplayRecord = (props) => {
                             <Button onClick={onClick}>Delete Comment</Button>
                         </Container>
                     }
+
+                    <Button onClick={deleteRecord}>Delete Record</Button>
                             
                 </div>
             </Container>

@@ -17,6 +17,7 @@ import NewArtist from "../Posting/NewArtist";
 import EditRecord from "../Records/EditRecord";
 import EditArtist from "../Artist/EditArtist";
 import EditCollector from "../Collector/EditCollector";
+import DeleteRecord from "../Records/DeleteRecord";
 
 const AppRouter = (props) => {
     return (
@@ -33,6 +34,7 @@ const AppRouter = (props) => {
                 <Route path="/records" element={<Records/>}/>
                 <Route path="/records/:nameFormatted" element={<DisplayRecord/>}/>
                 <Route path="/records/editRecord/:editRecord" element={<EditRecord/>}/>
+                <Route path="/records/delete/:recId" element={<DeleteRecord/>}/>
                 <Route path="/artists" element={<Artists/>}/>
                 <Route path="/artists/:artistNameFormatted" element={<DisplayArtist/>}/>
                 <Route path="/artists/editArtist/:editArtist" element={<EditArtist/>}/>

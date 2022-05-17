@@ -16,6 +16,7 @@ const EditRecord = (props) => {
     const params = useParams();
 
     const [editRecord, setEditRecord] = useState({
+        id: 0,
         name :"",
         nameFormatted: "",
         releaseYear: "",
