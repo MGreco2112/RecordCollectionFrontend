@@ -4,6 +4,7 @@ import { apiHostURL } from "../../config";
 import Container from "../common/Container";
 import { AuthContext } from "../Providers/AuthProvider";
 import Record from "../Records/Record";
+import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
@@ -41,7 +42,28 @@ const DisplayCollector = (props) => {
     const formatPage = () => {
         return(
             <Container>
-                <h1>{collector.name}</h1>
+
+                <div style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                    <div style={{
+                        flexDirection: 'row'
+                    }}>
+                        <h1>{collector.name}</h1>
+                    </div>
+
+                    {auth.profile.username == params.username ?
+                    
+                        <Button onClick={gotoEdit}>Edit</Button>
+                        :
+                        <Container/>
+                    }
+
+                </div>
 
                 <h2>Collection Info:</h2>
                 <div style={{flexDirection: 'row'}}>
@@ -59,6 +81,10 @@ const DisplayCollector = (props) => {
                 </div>
             </Container>
         )
+    }
+
+    const gotoEdit = () => {
+        navigate(`/collector/edit`);
     }
 
     const displayRecords = () => {

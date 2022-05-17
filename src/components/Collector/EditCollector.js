@@ -29,11 +29,7 @@ const EditCollector = (props) => {
         password: ""
     });
 
-    const [editRecords, setEditRecords] = useState();
-
-    const [editComments, setEditComments] = useState();
-
-    let loading = true;
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
@@ -56,7 +52,9 @@ const EditCollector = (props) => {
     
                     setEditCollector({
                         ...editCollector,
-                        name: res.data.name
+                        name: res.data.name,
+                        records: res.data.records,
+                        comments: res.data.comments
                     });
     
                     setEditUser({
@@ -65,18 +63,14 @@ const EditCollector = (props) => {
                         password: getUser.data.password
                     });
     
-                    setEditRecords(res.data.records);
-    
-                    setEditComments(res.data.comments);
-    
-                    loading = false;
+                    setLoading(false);
                 } catch (err) {
                     console.error(err.message ? err.message : err.response);
                 }
             }
         }
 
-        loading = true;
+        setLoading(true);
 
         _apiCalls();
     }, [auth]);
@@ -131,8 +125,6 @@ const EditCollector = (props) => {
             console.error(err.message ? err.message : err.response);
         }
     }
-    
-    console.log(editCollector);
 
 
     return(
@@ -140,6 +132,8 @@ const EditCollector = (props) => {
             <h1>Edit Your Profile</h1>
 
             {loading ?
+                <h1>loading...</h1>
+                :
                 <Form onSubmit={onSubmit} style={{marginTop: '1em'}}>
                     <InlineInputContainer>
                         <Input
@@ -173,8 +167,6 @@ const EditCollector = (props) => {
                     </InlineInputContainer>
                     <Button>Submit</Button>
                 </Form>
-                :
-                <h1>loading...</h1>
             }
         </Container>
     )
