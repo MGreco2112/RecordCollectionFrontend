@@ -13,6 +13,8 @@ import { AuthContext } from "../Providers/AuthProvider";
 import { apiHostURL } from "../../config";
 
 
+//todo fix search by artist
+
 const Search = (props) => {
     const [queryResult, setQueryResult] = useState([]);
 

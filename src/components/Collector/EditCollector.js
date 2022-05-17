@@ -10,6 +10,8 @@ import Input from "../common/Input";
 import Button from "../common/Button";
 import Container from "../common/Container";
 
+//todo fix password overwrite
+
 const EditCollector = (props) => {
 
     const navigate = useNavigate();

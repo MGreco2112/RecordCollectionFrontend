@@ -34,6 +34,8 @@ const Login = (props) => {
     }
 
     const _loginUser = async (data) => {
+        console.log(data);
+
         try {
             
             const res = await axios.post(`${apiHostURL}/api/auth/signin`, data);
