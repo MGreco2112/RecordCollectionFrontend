@@ -299,7 +299,11 @@ const DisplayRecord = (props) => {
                         </Container>
                     }
 
-                    <Button onClick={deleteRecord}>Delete Record</Button>
+                    {auth.roles.includes("ROLE_ADMIN") ?
+                        <Button onClick={deleteRecord}>Delete Record</Button>
+                        :
+                        <Container/>
+                    }
                             
                 </div>
             </Container>

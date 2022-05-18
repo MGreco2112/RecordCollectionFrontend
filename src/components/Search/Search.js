@@ -13,7 +13,6 @@ import { AuthContext } from "../Providers/AuthProvider";
 import { apiHostURL } from "../../config";
 
 
-//todo fix search by artist
 
 const Search = (props) => {
     const [queryResult, setQueryResult] = useState([]);
@@ -30,15 +29,17 @@ const Search = (props) => {
     const navigate = useNavigate();
 
     const _searchByQuery = async () => {
-            console.log(true);
+            console.log(searchQueryUrl.searchMode);
         try {
             let searchUrl = "";
 
             switch (searchQueryUrl.searchMode) {
                 case "0":
+                    
                     searchUrl = `${apiHostURL}/api/records/search/artist_name/${searchQueryUrl.query}`
                     break;
                 default:
+                    console.log(true);
                     searchUrl = `${apiHostURL}/api/records/search/name/${searchQueryUrl.query}`
             }
 
@@ -112,7 +113,7 @@ const Search = (props) => {
                             value={searchQueryUrl.query}
                         />
                         <Button>Search</Button>
-                        <Radio id="Artist" name="routeSel" value={0} label={"Search By Artist"} onClick={onClick} checked/>
+                        <Radio id="Artist" name="routeSel" value={0} label={"Search By Artist"} onClick={onClick}/>
                         <Radio id="Record" name="routeSel" value={1} label={"Search By Record"} onClick={onClick}/>
                     </InlineInputContainer>
                    
