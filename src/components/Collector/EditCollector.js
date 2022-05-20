@@ -9,6 +9,7 @@ import InlineInputContainer from "../common/InlineInputContainer";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import Container from "../common/Container";
+import Checkbox from "../common/Checkbox";
 
 
 const EditCollector = (props) => {
@@ -50,11 +51,17 @@ const EditCollector = (props) => {
                             Authorization: `Bearer ${auth.token}`
                         }
                     });
+
+                    const records = []
+
+                    res.data.records.forEach(record => {
+                        records.push(record.name);
+                    })
     
                     setEditCollector({
                         ...editCollector,
                         name: res.data.name,
-                        records: res.data.records,
+                        records: records,
                         comments: res.data.comments
                     });
     
@@ -130,6 +137,26 @@ const EditCollector = (props) => {
         }
     }
 
+    const onChange = () => {
+        const buttons = document.getElementsByName("recordButtons");
+
+        const editRecords = editCollector.records;
+
+        for (let i = 0; i < buttons.length; i++) {
+            if (!buttons[i].checked) {
+                for (let j = 0; j < editRecords.length; j++) {
+                    if (editRecords[j] == buttons[i].value) {
+                        editRecords.splice(j, 1);
+                    }
+                }
+            } else {
+                if (buttons[i].checked && !editRecords.includes(buttons[i].value)) {
+                    editRecords.push(buttons[i].value);
+                }
+            }
+        }
+
+    }
 
     return(
         <Container>
@@ -168,6 +195,15 @@ const EditCollector = (props) => {
                             label={"Display Name"}
                             required
                         />
+                    </InlineInputContainer>
+                    <InlineInputContainer>
+                        <InlineInputContainer>
+                            <h3>Uncheck to Remove Records</h3>
+
+                        </InlineInputContainer>
+                        {editCollector.records.map(record => {
+                            return <Checkbox style={{minWidth: '20px', width: '5%', minHeight: '0vh'}} id={record} name ={"recordButtons"} value={record} onChange={onChange} checked label={record}/>
+                        })}
                     </InlineInputContainer>
                     <Button>Submit</Button>
                 </Form>

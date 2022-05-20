@@ -86,7 +86,11 @@ const DisplayArtist = (props) => {
                         <h1>{artist.artistName}</h1>
                     </div>
 
-                        <Button onClick={gotoEdit}>Edit</Button>
+                        {auth.roles.includes("ROLE_ADMIN") ? 
+                            <Button onClick={gotoEdit}>Edit</Button>
+                            :
+                            <Container/>
+                        }
                 </div>
 
 

@@ -5,6 +5,7 @@ const Checkbox = (props) => {
     return(
         <Container>
             <input
+                style={{...style.input , ...props.style}}
                 type="checkbox"
                 id={props.id}
                 name={props.name}

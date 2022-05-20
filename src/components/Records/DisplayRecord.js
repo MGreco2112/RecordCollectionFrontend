@@ -139,7 +139,7 @@ const DisplayRecord = (props) => {
         return(
             <Form onSubmit={_handleSubmit}>
                 <InlineInputContainer>
-                    <Checkbox id={"box1"} name={"ownedRecord"} value={true}
+                    <Checkbox style={{minWidth: '20px', width: '5%', minHeight: '0vh'}} id={"box1"} name={"ownedRecord"} value={true}
                         checked={isChecked} label={"In your Collection"}/>
                     <Button>Submit</Button>
                 </InlineInputContainer>
@@ -234,8 +234,11 @@ const DisplayRecord = (props) => {
                         <h1>{record.name}</h1>
                     </div>
 
-                    
-                    <Button onClick={gotoEdit}>Edit</Button>
+                    {auth.roles.includes("ROLE_ADMIN") ?
+                        <Button onClick={gotoEdit}>Edit</Button>
+                        :
+                        <Container/>
+                    }
                     
 
                 </div>
