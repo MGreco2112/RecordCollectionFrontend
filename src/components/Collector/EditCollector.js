@@ -31,6 +31,8 @@ const EditCollector = (props) => {
         password: ""
     });
 
+    let editRecords = [];
+
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -40,7 +42,7 @@ const EditCollector = (props) => {
             if (auth.token) {
     
                 try {
-                    const res = await axios.get(`${apiHostURL}/api/collectors/currentCollector`, {
+                    const res = await axios.get(`${apiHostURL}/api/collectors/formattedCollector`, {
                         headers: {
                             Authorization: `Bearer ${auth.token}`
                         }
@@ -52,16 +54,12 @@ const EditCollector = (props) => {
                         }
                     });
 
-                    const records = []
-
-                    res.data.records.forEach(record => {
-                        records.push(record.name);
-                    })
+                    
     
                     setEditCollector({
                         ...editCollector,
                         name: res.data.name,
-                        records: records,
+                        records: res.data.records.sort((a, b) => a - b),
                         comments: res.data.comments
                     });
     
@@ -108,6 +106,11 @@ const EditCollector = (props) => {
 
     const onSubmit = () => {
 
+        setEditCollector({
+            ...editCollector,
+            records: editRecords
+        });
+
         console.log(editUser);
         console.log(editCollector);
 
@@ -116,7 +119,7 @@ const EditCollector = (props) => {
     }
 
     const _putUpdates = async (editCollector, editUser) => {
-        console.log(editCollector);
+        console.log("changed: " + editCollector.records);
 
         try {
             const putCollector = await axios.put(`${apiHostURL}/api/collectors`, editCollector, {
@@ -140,15 +143,11 @@ const EditCollector = (props) => {
     const onChange = () => {
         const buttons = document.getElementsByName("recordButtons");
 
-        const editRecords = editCollector.records;
+        editRecords = editCollector.records;
 
         for (let i = 0; i < buttons.length; i++) {
             if (!buttons[i].checked) {
-                for (let j = 0; j < editRecords.length; j++) {
-                    if (editRecords[j] == buttons[i].value) {
-                        editRecords.splice(j, 1);
-                    }
-                }
+                editRecords.splice(editRecords.indexOf(buttons[i].value, 1));
             } else {
                 if (buttons[i].checked && !editRecords.includes(buttons[i].value)) {
                     editRecords.push(buttons[i].value);
