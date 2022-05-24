@@ -60,7 +60,7 @@ const DisplayCollector = (props) => {
                     
                         <Button onClick={gotoEdit}>Edit</Button>
                         :
-                        <Container/>
+                        <div/>
                     }
 
                 </div>

@@ -65,6 +65,23 @@ const DisplayArtist = (props) => {
         navigate(`/artists/editArtist/${artist.id}`);
     }
 
+    const deleteArtist = async () => {
+        try {
+            const res = await axios.delete(`${apiHostURL}/api/records/removeArtists/${artist.id}`, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            });
+
+            alert(res.data);
+
+            navigate("/");
+
+        } catch (err) {
+            console.error(err.message ? err.message : err.response);
+        }
+    }
+
     return (
         <Container>
             {loading ?
@@ -89,7 +106,7 @@ const DisplayArtist = (props) => {
                         {auth.roles.includes("ROLE_ADMIN") ? 
                             <Button onClick={gotoEdit}>Edit</Button>
                             :
-                            <Container/>
+                            <div/>
                         }
                 </div>
 
@@ -105,6 +122,12 @@ const DisplayArtist = (props) => {
                     {records.map(record => {
                         return <Record record={record} key={record.id} onSelect={onSelect}/>
                     })}
+
+                    {auth.roles.includes("ROLE_ADMIN") ? 
+                        <Button onClick={deleteArtist}>Delete Artist</Button>
+                        :
+                        <div/>
+                    }
                 </Container>
                 
             }

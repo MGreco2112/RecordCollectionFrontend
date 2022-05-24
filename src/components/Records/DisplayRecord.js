@@ -237,7 +237,7 @@ const DisplayRecord = (props) => {
                     {auth.roles.includes("ROLE_ADMIN") ?
                         <Button onClick={gotoEdit}>Edit</Button>
                         :
-                        <Container/>
+                        <div/>
                     }
                     
 
@@ -305,7 +305,7 @@ const DisplayRecord = (props) => {
                     {auth.roles.includes("ROLE_ADMIN") ?
                         <Button onClick={deleteRecord}>Delete Record</Button>
                         :
-                        <Container/>
+                        <div/>
                     }
                             
                 </div>
