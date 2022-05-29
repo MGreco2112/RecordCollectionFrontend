@@ -15,7 +15,7 @@ const Record = (props) => {
         <BorderCard onClick={onSelect} style={{flexDirection: "column", alignItems: "center"}}>
             <h2>{name}</h2>
             <div style={{flexDirection: "column"}}>
-                <p>{artist.artistName}</p>
+                <p>{artist ? artist.artistName : "Unknown Artist"}</p>
                 <p>{releaseYear}</p>
             </div>
         </BorderCard>

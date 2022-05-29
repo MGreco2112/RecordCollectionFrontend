@@ -246,7 +246,12 @@ const DisplayRecord = (props) => {
                 <h3>{record.releaseYear}</h3>
 
                 <h3>Artist</h3>
-                <Artist artist={record.artist} key={record.artist.artistNameFormatted} onSelect={onSelect}/>
+                {
+                    record.artist ?
+                    <Artist artist={record.artist} key={record.artist.artistNameFormatted} onSelect={onSelect}/>
+                    :
+                    <p>Unknown Artist</p>
+                }
 
                 <div style={{
                             flex: 1,
