@@ -33,7 +33,10 @@ const DisplayCollector = (props) => {
             setLoading(false);
         }
         setLoading(true);
-        _fetchCollector();
+
+        if (auth.token) {
+            _fetchCollector();
+        }
     
     }, [auth]);
 

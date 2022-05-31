@@ -34,7 +34,6 @@ const DisplayArtist = (props) => {
             )
             console.log(res.data);
             setArtist(res.data);
-            // setLoading(false);
         }
 
         const _fetchRecords = async (selArtist) => {
@@ -52,8 +51,13 @@ const DisplayArtist = (props) => {
 
 
         setLoading(true);
-        _fetchArtist();
-        _fetchRecords(artist);
+
+        if (auth.token) {
+            _fetchArtist();
+            _fetchRecords(artist);
+
+        }
+
         console.log(artist);
     }, [auth]);
 
@@ -82,54 +86,60 @@ const DisplayArtist = (props) => {
         }
     }
 
+    const formatPage = () => {
+        return (
+            <Container>
+
+            <div style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                
+                <div style={{
+                    flexDirection: 'row'
+                }}>
+                    <h1>{artist.artistName}</h1>
+                </div>
+
+                    {auth.roles.includes("ROLE_ADMIN") ? 
+                        <Button onClick={gotoEdit}>Edit</Button>
+                        :
+                        <div/>
+                    }
+            </div>
+
+
+                <h2>Members:</h2>
+
+                {artist.members.map(member => {
+                    return <p>{member}</p>
+                })}
+
+                <h2>Records</h2>
+
+                {records.map(record => {
+                    return <Record record={record} key={record.name} onSelect={onSelect}/>
+                })}
+
+                {auth.roles.includes("ROLE_ADMIN") ? 
+                    <Button onClick={deleteArtist}>Delete Artist</Button>
+                    :
+                    <div/>
+                }
+            </Container>
+        )
+    }
+
     return (
         <Container>
             {loading ?
                 <h1>LOADING...</h1>
                 :
-                <Container>
-
-                <div style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}>
-                    
-                    <div style={{
-                        flexDirection: 'row'
-                    }}>
-                        <h1>{artist.artistName}</h1>
-                    </div>
-
-                        {auth.roles.includes("ROLE_ADMIN") ? 
-                            <Button onClick={gotoEdit}>Edit</Button>
-                            :
-                            <div/>
-                        }
-                </div>
-
-
-                    <h2>Members:</h2>
-
-                    {artist.members.map(member => {
-                        return <p>{member}</p>
-                    })}
-
-                    <h2>Records</h2>
-
-                    {records.map(record => {
-                        return <Record record={record} key={record.id} onSelect={onSelect}/>
-                    })}
-
-                    {auth.roles.includes("ROLE_ADMIN") ? 
-                        <Button onClick={deleteArtist}>Delete Artist</Button>
-                        :
-                        <div/>
-                    }
-                </Container>
                 
+                formatPage()
             }
         </Container>
     )
