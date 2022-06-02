@@ -33,6 +33,8 @@ const EditCollector = (props) => {
 
     let editRecords = [];
 
+    let editComments = [];
+
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -60,7 +62,7 @@ const EditCollector = (props) => {
                         ...editCollector,
                         name: res.data.name,
                         records: res.data.records.sort((a, b) => a - b),
-                        comments: res.data.comments
+                        comments: res.data.comments.sort((a, b) => a - b)
                     });
     
                     setEditUser({
@@ -108,7 +110,8 @@ const EditCollector = (props) => {
 
         setEditCollector({
             ...editCollector,
-            records: editRecords
+            records: editRecords,
+            comments: editComments
         });
 
         console.log(editUser);
@@ -141,16 +144,28 @@ const EditCollector = (props) => {
     }
 
     const onChange = () => {
-        const buttons = document.getElementsByName("recordButtons");
+        const recordButtons = document.getElementsByName("recordButtons");
+        const commentButtons = document.getElementsByName("commentButtons")
 
         editRecords = editCollector.records;
+        editComments = editCollector.comments;
 
-        for (let i = 0; i < buttons.length; i++) {
-            if (!buttons[i].checked) {
-                editRecords.splice(editRecords.indexOf(buttons[i].value, 1));
+        for (let i = 0; i < recordButtons.length; i++) {
+            if (!recordButtons[i].checked) {
+                editRecords.splice(editRecords.indexOf(recordButtons[i].value, 1));
             } else {
-                if (buttons[i].checked && !editRecords.includes(buttons[i].value)) {
-                    editRecords.push(buttons[i].value);
+                if (recordButtons[i].checked && !editRecords.includes(recordButtons[i].value)) {
+                    editRecords.push(recordButtons[i].value);
+                }
+            }
+        }
+
+        for (let i = 0; i < commentButtons.length; i++) {
+            if (!commentButtons[i].checked) {
+                editComments.splice(editComments.indexOf(commentButtons[i].value, 1));
+            } else {
+                if (commentButtons[i].checked && !editComments.includes(commentButtons[i].value)) {
+                    editComments.push(commentButtons[i].value);
                 }
             }
         }
@@ -204,6 +219,11 @@ const EditCollector = (props) => {
                             return <Checkbox style={{minWidth: '20px', width: '5%', minHeight: '0vh'}} id={record} name ={"recordButtons"} value={record} onChange={onChange} checked label={record}/>
                         })}
                     </InlineInputContainer>
+                    <div>
+                        {editCollector.comments.map(comment => {
+                            return <Checkbox style={{minWidth: '20px', width: '5%', minHeight: '0vh'}} id={comment} name={"commentButtons"} value={comment} onChange={onChange} checked label={comment}/>
+                        })}
+                    </div>
                     <Button>Submit</Button>
                 </Form>
             }
