@@ -18,6 +18,7 @@ import EditRecord from "../Records/EditRecord";
 import EditArtist from "../Artist/EditArtist";
 import EditCollector from "../Collector/EditCollector";
 import DeleteRecord from "../Records/DeleteRecord";
+import AdminRegister from "../Auth/AdminRegister";
 
 const AppRouter = (props) => {
     return (
@@ -29,6 +30,7 @@ const AppRouter = (props) => {
                 <Route path="/login" element={<Login/>}/>
                 <Route path="logout" element={<Logout/>}/>
                 <Route path="/register" element={<Signup/>}/>
+                <Route path="/admin/create_access_account" element={<AdminRegister/>}/>
                 <Route path="/newRecord" element={<NewRecord/>}/>
                 <Route path="newArtist/:recordId" element={<NewArtist/>}/>
                 <Route path="/records" element={<Records/>}/>
