@@ -39,6 +39,7 @@ const AdminRegisterForm = (props) => {
                         id="username"
                         value={newAdmin.username}
                         onChange={handleChange}
+                        placeholder="username"
                         required
                     />
                 </InlineInputContainer>
@@ -48,6 +49,7 @@ const AdminRegisterForm = (props) => {
                         id="password"
                         value={newAdmin.password}
                         onChange={handleChange}
+                        placeholder="password"
                         required
                     />
                 </InlineInputContainer>

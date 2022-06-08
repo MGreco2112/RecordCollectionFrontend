@@ -68,53 +68,59 @@ const AdminRegister = () => {
 
             console.log(res.data);
 
+            const timestamp = new Date().getTime();
+
+            console.log(timestamp);
+
             const discogsTokenRequest = await axios.get(requestTokenURL, {
+                // headers: {
+                //     oauth_consumer_key: consumerKey,
+                //     oauth_nonce: new Date().getTime(),
+                //     oauth_signature: `${consumerSecret}&`,
+                //     oauth_signature_method: "PLAINTEXT",
+                //     oauth_timestamp: new Date().getTime(),
+                //     oauth_callback: callbackURL
+                // }
                 headers: {
-                    oauth_consumer_key: consumerKey,
-                    oauth_nonce: new Date().getTime(),
-                    oauth_signature: `${consumerSecret}&`,
-                    oauth_signature_method: "PLAINTEXT",
-                    oauth_timestamp: new Date().getTime(),
-                    oauth_callback: callbackURL
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    Authorization: `OAuth oauth_consumer_key=${consumerKey}, oauth_nonce=${timestamp}, oauth_signature=${consumerSecret}&, oauth_signature_method="PLAINTEXT", oauth_timestamp=${timestamp}, oauth_callback=${callbackURL}`,
+                    // "User-Agent": "Axios 0.26.1",
                 }
-            },
-            {
-                "User-Agent": "Axios 0.26.1"
             });
 
             console.log(discogsTokenRequest.data);
 
-            const accessToken = discogsTokenRequest.data.oauth_token;
+            // const accessToken = discogsTokenRequest.data.oauth_token;
 
-            const tokenVerifier = discogsToken.data.oauth_token_secret;
+            // const tokenVerifier = discogsTokenRequest.data.oauth_token_secret;
 
-            navigate(authorizeURL);
+            // navigate(authorizeURL);
 
-            const discogsAccessToken = await axios.post(accessTokenURL, {
-                headers: {
-                    oauth_consumer_key: consumerKey,
-                    oauth_nonce: new Date().getTime(),
-                    oauth_token: accessToken,
-                    oauth_signature: `${consumerSecret}&`,
-                    oauth_signature_method: "PLAINTEXT",
-                    oauth_timestamp: new Date().getTime(),
-                    oauth_callback: callbackURL,
-                    oauthVerifier: tokenVerifier
-                }
-            }, {
-                "User_Agent": "Axios 0.26.1"
-            });
+            // const discogsAccessToken = await axios.post(accessTokenURL, {
+            //     headers: {
+            //         oauth_consumer_key: consumerKey,
+            //         oauth_nonce: new Date().getTime(),
+            //         oauth_token: accessToken,
+            //         oauth_signature: `${consumerSecret}&`,
+            //         oauth_signature_method: "PLAINTEXT",
+            //         oauth_timestamp: new Date().getTime(),
+            //         oauth_callback: callbackURL,
+            //         oauthVerifier: tokenVerifier
+            //     }
+            // }, {
+            //     "User_Agent": "Axios 0.26.1"
+            // });
 
-            const discogsCreds = {
-                discogsToken: discogsAccessToken.data.oauth_token,
-                discogsSecret: discogsAccessToken.data.oauth_token_secret
-            }
+            // const discogsCreds = {
+            //     discogsToken: discogsAccessToken.data.oauth_token,
+            //     discogsSecret: discogsAccessToken.data.oauth_token_secret
+            // }
 
-            const updateUser = await axios.put(`${apiHostURL}/api/collectors/user`, discogsCreds, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            // const updateUser = await axios.put(`${apiHostURL}/api/collectors/user`, discogsCreds, {
+            //     headers: {
+            //         Authorization: `Bearer ${token}`
+            //     }
+            // });
 
         } catch (err) {
             console.error(err.message ? err.message : err.response);
