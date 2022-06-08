@@ -68,33 +68,22 @@ const AdminRegister = () => {
 
             console.log(res.data);
 
-            const timestamp = new Date().getTime();
-
-            console.log(timestamp);
-
-            const discogsTokenRequest = await axios.get(requestTokenURL, {
-                // headers: {
-                //     oauth_consumer_key: consumerKey,
-                //     oauth_nonce: new Date().getTime(),
-                //     oauth_signature: `${consumerSecret}&`,
-                //     oauth_signature_method: "PLAINTEXT",
-                //     oauth_timestamp: new Date().getTime(),
-                //     oauth_callback: callbackURL
-                // }
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    Authorization: `OAuth oauth_consumer_key=${consumerKey}, oauth_nonce=${timestamp}, oauth_signature=${consumerSecret}&, oauth_signature_method="PLAINTEXT", oauth_timestamp=${timestamp}, oauth_callback=${callbackURL}`,
-                    // "User-Agent": "Axios 0.26.1",
-                }
-            });
+            const discogsTokenRequest = await axios.get(`${apiHostURL}/api/auth/discogsTokenRequest`);
 
             console.log(discogsTokenRequest.data);
 
-            // const accessToken = discogsTokenRequest.data.oauth_token;
+            const formattedTokenResponse = discogsTokenRequest.data.response.split("&");
 
-            // const tokenVerifier = discogsTokenRequest.data.oauth_token_secret;
+            const accessToken = formattedTokenResponse[0];
 
-            // navigate(authorizeURL);
+            const tokenSecret = formattedTokenResponse[1];
+
+            // console.log(authorizeURL + `?${accessToken}`);
+
+
+
+
+            window.location.replace(authorizeURL + `?${accessToken}`);
 
             // const discogsAccessToken = await axios.post(accessTokenURL, {
             //     headers: {
