@@ -47,6 +47,7 @@ const AdminRegisterForm = (props) => {
                     <Input
                         name="password"
                         id="password"
+                        type="password"
                         value={newAdmin.password}
                         onChange={handleChange}
                         placeholder="password"
