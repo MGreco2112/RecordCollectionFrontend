@@ -50,6 +50,7 @@ const AdminRegisterForm = (props) => {
                         value={newAdmin.password}
                         onChange={handleChange}
                         placeholder="password"
+                        type="password"
                         required
                     />
                 </InlineInputContainer>
