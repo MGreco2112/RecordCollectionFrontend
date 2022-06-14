@@ -30,8 +30,8 @@ const Login = (props) => {
     useEffect(() => {
         const loadCreds = () => {
             setDiscogsCreds({
-                token: searchParams.get("oauth_token"),
-                secret: searchParams.get("oauth_verifier")
+                token: searchParams.get("oauth_token").toString(),
+                secret: searchParams.get("oauth_verifier").toString()
             });
         }
 
@@ -54,7 +54,8 @@ const Login = (props) => {
     }
 
     const _loginUser = async (data) => {
-        console.log(data);
+        // console.log(data);
+        console.log(discogsCreds);
 
         try {
             
