@@ -86,7 +86,7 @@ const Login = (props) => {
             };
 
             if (discogsCreds.discogsToken != "") {
-                const updateUser = await axios.put(`${apiHostURL}/api/collectors/user`, formattedAuthorizeToken, {
+                const updateUser = await axios.put(`${apiHostURL}/api/collectors/user`, authorizeCreds, {
                     headers: {
                         Authorization: `Bearer ${res.data.token}`
                     }
