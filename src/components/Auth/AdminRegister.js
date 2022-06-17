@@ -78,38 +78,9 @@ const AdminRegister = () => {
 
             const tokenSecret = formattedTokenResponse[1];
 
-            // console.log(authorizeURL + `?${accessToken}`);
-
-
 
 
             window.location.replace(authorizeURL + `?${accessToken}`);
-
-            // const discogsAccessToken = await axios.post(accessTokenURL, {
-            //     headers: {
-            //         oauth_consumer_key: consumerKey,
-            //         oauth_nonce: new Date().getTime(),
-            //         oauth_token: accessToken,
-            //         oauth_signature: `${consumerSecret}&`,
-            //         oauth_signature_method: "PLAINTEXT",
-            //         oauth_timestamp: new Date().getTime(),
-            //         oauth_callback: callbackURL,
-            //         oauthVerifier: tokenVerifier
-            //     }
-            // }, {
-            //     "User_Agent": "Axios 0.26.1"
-            // });
-
-            // const discogsCreds = {
-            //     discogsToken: discogsAccessToken.data.oauth_token,
-            //     discogsSecret: discogsAccessToken.data.oauth_token_secret
-            // }
-
-            // const updateUser = await axios.put(`${apiHostURL}/api/collectors/user`, discogsCreds, {
-            //     headers: {
-            //         Authorization: `Bearer ${token}`
-            //     }
-            // });
 
         } catch (err) {
             console.error(err.message ? err.message : err.response);
