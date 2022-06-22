@@ -19,6 +19,7 @@ import EditArtist from "../Artist/EditArtist";
 import EditCollector from "../Collector/EditCollector";
 import DeleteRecord from "../Records/DeleteRecord";
 import AdminRegister from "../Auth/AdminRegister";
+import Test from "../discogsAPI/test";
 
 const AppRouter = (props) => {
     return (
@@ -44,6 +45,7 @@ const AppRouter = (props) => {
                 <Route path="/collector" element={<NavCollector/>}/>
                 <Route path="/collector/:username" element={<DisplayCollector/>}/>
                 <Route path="/collector/edit/" element={<EditCollector/>}/>
+                <Route path="/test" element={<Test/>}/>
             </Routes>
         </div>
     )
