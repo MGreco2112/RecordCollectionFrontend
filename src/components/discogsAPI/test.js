@@ -28,7 +28,7 @@ const Test = () => {
     useEffect(() => {
         const _fetchDiscogsRecord = async () => {
             try {
-                const res = await axios.get(`${apiHostURL}/api/discogs/frontendTest`, {
+                const res = await axios.get(`${apiHostURL}/api/discogs/test`, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`
                     }
@@ -101,8 +101,16 @@ const Test = () => {
     const _handleSubmit = async () => {
         if (document.getElementById("box1").checked) {
 
+            const postAttempt = await axios.post(`${apiHostURL}/api/discogs/saveDiscogsRecord`, record, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            });
+
+
+
             const sendRecord = {
-                id: record.id
+                id: postAttempt.data.id
             };
 
             try {
