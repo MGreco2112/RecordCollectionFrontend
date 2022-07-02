@@ -12,6 +12,7 @@ import DisplayArtist from "../Artist/DisplayArtist";
 import NavCollector from "../Collector/NavCollector";
 import DisplayCollector from "../Collector/DisplayCollector";
 import Search from "../Search/Search";
+import DiscogsSearch from "../discogsAPI/DiscogsSearch";
 import NewRecord from "../Posting/NewRecord";
 import NewArtist from "../Posting/NewArtist";
 import EditRecord from "../Records/EditRecord";
@@ -42,6 +43,7 @@ const AppRouter = (props) => {
                 <Route path="/artists/:artistNameFormatted" element={<DisplayArtist/>}/>
                 <Route path="/artists/editArtist/:editArtist" element={<EditArtist/>}/>
                 <Route path="/search" element={<Search/>}/>
+                <Route path="/external_search" element={<DiscogsSearch/>}/>
                 <Route path="/collector" element={<NavCollector/>}/>
                 <Route path="/collector/:username" element={<DisplayCollector/>}/>
                 <Route path="/collector/edit/" element={<EditCollector/>}/>
