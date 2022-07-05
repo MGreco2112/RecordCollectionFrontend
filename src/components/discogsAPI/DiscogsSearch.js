@@ -20,13 +20,34 @@ const DiscogsSearch = () => {
 
     const [loading, setLoading] = useState(true);
 
+    const [searchQuery, setSearchQuery] = useState("");
+
 
     //switch this to a called method for custom queries
-    useEffect(async () => {
+    // useEffect(async () => {
 
+    //     if (auth.token) {
+    //         try {
+    //             const discogsSearch = await axios.get(`${apiHostURL}/api/discogs/searchRecords/Caress Of Steel`, {
+    //                 headers: {
+    //                     Authorization: `Bearer ${auth.token}`
+    //                 }
+    //             });
+    
+    //             setSearchResults(discogsSearch.data);
+    //             setLoading(false);
+    
+    //         } catch (err) {
+    //             console.error(err.message ? err.message : err.response);
+    //         }
+    //     }
+    // }, [auth]);
+
+    const _searchByQuery = async (searchQuery) => {
         if (auth.token) {
+            console.log(true);
             try {
-                const discogsSearch = await axios.get(`${apiHostURL}/api/discogs/searchRecords/Caress Of Steel`, {
+                const discogsSearch = await axios.get(`${apiHostURL}/api/discogs/searchRecords/${searchQuery}`, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`
                     }
@@ -39,15 +60,29 @@ const DiscogsSearch = () => {
                 console.error(err.message ? err.message : err.response);
             }
         }
-    }, [auth])
+    }
+
+    const handleSubmit = () => {
+        _searchByQuery(searchQuery);
+    }
 
 
     return(
         <Container>
+            <Form onSubmit={handleSubmit}>
+                <InlineInputContainer>
+                    <Input
+                        id="query"
+                        placeholder="Enter a Record Title to search"
+                        onChange={e => setSearchQuery(e.target.value)}
+                        value={searchQuery}
+                    />
+                    <Button>Search</Button>
+                </InlineInputContainer>
+            </Form>
             {loading ?
-                <h1>DiscogsSearch</h1>
+                <InlineInputContainer/>
                 :
-                //Add selectable elements to save bulk to system
                 searchResults.map(record => {
                     return <DiscogsRecord discogsRecord={record}/>
                 })
