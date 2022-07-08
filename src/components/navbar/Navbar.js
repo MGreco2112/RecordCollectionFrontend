@@ -37,6 +37,7 @@ const Navbar = (props) => {
                 {auth.token ?
                     <Fragment>
                         <NavButton to="/search" label="Search"/>
+                        <NavButton to="/external_search" label="Search Discogs"/>
                         <NavButton to="/records" label="See Our Records"/>
                         <NavButton to="/artists" label="See Our Artists"/>
                         <NavButton to="/newRecord" label="Post A New Record"/>
