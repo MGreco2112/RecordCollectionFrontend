@@ -66,6 +66,24 @@ const DiscogsSearch = () => {
         _searchByQuery(searchQuery);
     }
 
+    const onSelect = async (url) => {
+        const request = {
+            path: url
+        }
+
+        try {
+            const formattedRecord = await axios.get(`${apiHostURL}/api/discogs/formatRecord`, request, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            });
+
+
+        } catch (err) {
+            console.error(err.message ? err.message : err.response);
+        }
+    }
+
 
     return(
         <Container>
