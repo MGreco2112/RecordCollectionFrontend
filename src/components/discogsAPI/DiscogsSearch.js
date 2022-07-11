@@ -76,6 +76,8 @@ const DiscogsSearch = () => {
                 headers: {
                     Authorization: `Bearer ${auth.token}`
                 }
+
+                //With the selected record formatted, how to send it to another page?
             });
 
 
