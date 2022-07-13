@@ -8,7 +8,7 @@ import InlineInputContainer from "../common/InlineInputContainer";
 import Container from "../common/Container";
 import DiscogsRecord from "../discogsAPI/DiscogsRecord";
 import Artist from "../Artist/Artist";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
 import { apiHostURL } from "../../config";
 
@@ -21,6 +21,8 @@ const DiscogsSearch = () => {
     const [loading, setLoading] = useState(true);
 
     const [searchQuery, setSearchQuery] = useState("");
+
+    const navigate = useNavigate();
 
 
     //switch this to a called method for custom queries
@@ -66,19 +68,25 @@ const DiscogsSearch = () => {
         _searchByQuery(searchQuery);
     }
 
-    const onSelect = async (url) => {
+    const onSelect = async (resource_url) => {
         const request = {
-            path: url
+            discogsPath: resource_url
         }
 
+        console.log(request);
+
         try {
-            const formattedRecord = await axios.get(`${apiHostURL}/api/discogs/formatRecord`, request, {
+            const formattedRecord = await axios.post(`${apiHostURL}/api/discogs/convertRecord`, request, {
                 headers: {
                     Authorization: `Bearer ${auth.token}`
                 }
 
                 //With the selected record formatted, how to send it to another page?
             });
+
+            localStorage.setItem("Record", JSON.stringify(formattedRecord.data));
+
+            navigate(`/displayDiscogs`);
 
 
         } catch (err) {
@@ -104,7 +112,7 @@ const DiscogsSearch = () => {
                 <InlineInputContainer/>
                 :
                 searchResults.map(record => {
-                    return <DiscogsRecord discogsRecord={record}/>
+                    return <DiscogsRecord discogsRecord={record} onSelect={onSelect}/>
                 })
             }
         </Container>

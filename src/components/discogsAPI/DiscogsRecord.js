@@ -2,10 +2,10 @@ import React from "react";
 import BorderCard from "../common/BorderCard";
 
 const DiscogsRecord = (props) => {
-    const {title, artist, url} = props.discogsRecord;
+    const {title, artist, resource_url} = props.discogsRecord;
 
     const onSelect = () => {
-        props.onSelect(url);
+        props.onSelect(resource_url);
     }
 
     return(
