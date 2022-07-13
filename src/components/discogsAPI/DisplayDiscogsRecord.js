@@ -28,6 +28,8 @@ const DisplayDiscogsRecord = () => {
         const unpackRecord = async () => {
             setRecord(JSON.parse(localStorage.getItem("Record")));
 
+            localStorage.removeItem("Record");
+
             console.log(auth.token);
 
             try {
