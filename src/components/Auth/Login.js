@@ -18,10 +18,7 @@ const Login = (props) => {
 
     });
 
-    const [discogsCreds, setDiscogsCreds] = useState({
-        token: "",
-        secret: ""
-    });
+    const [discogsCreds, setDiscogsCreds] = useState({});
 
     const navigate = useNavigate();
 
@@ -73,19 +70,19 @@ const Login = (props) => {
 
             saveAuth(res.data);
             
+            if (discogsCreds.discogsToken) {
 
-            const authorizeToken = await axios.post(`${apiHostURL}/api/auth/discogsAccessToken`, discogsCreds);
+                const authorizeToken = await axios.post(`${apiHostURL}/api/auth/discogsAccessToken`, discogsCreds);
 
-            console.log(authorizeToken.data);
+                console.log(authorizeToken.data);
 
-            const formattedAuthorizeToken = authorizeToken.data.response.split("&");
+                const formattedAuthorizeToken = authorizeToken.data.response.split("&");
 
-            const authorizeCreds = {
-                discogsToken: formattedAuthorizeToken[0],
-                discogsSecret: formattedAuthorizeToken[1]
-            };
+                const authorizeCreds = {
+                    discogsToken: formattedAuthorizeToken[0],
+                    discogsSecret: formattedAuthorizeToken[1]
+                };
 
-            if (discogsCreds.discogsToken != "") {
                 const updateUser = await axios.put(`${apiHostURL}/api/collectors/user`, authorizeCreds, {
                     headers: {
                         Authorization: `Bearer ${res.data.token}`
