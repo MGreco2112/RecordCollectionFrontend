@@ -73,24 +73,12 @@ const DiscogsSearch = () => {
             discogsPath: resource_url
         }
 
-        console.log(request);
+        localStorage.setItem("Record", JSON.stringify(request));
 
-        try {
-            const formattedRecord = await axios.post(`${apiHostURL}/api/discogs/convertRecord`, request, {
-                headers: {
-                    Authorization: `Bearer ${auth.token}`
-                }
-                
-            });
-
-            localStorage.setItem("Record", JSON.stringify(formattedRecord.data));
-
-            navigate(`/displayDiscogs`);
+        navigate(`/displayDiscogs`);
 
 
-        } catch (err) {
-            console.error(err.message ? err.message : err.response);
-        }
+        
     }
 
 

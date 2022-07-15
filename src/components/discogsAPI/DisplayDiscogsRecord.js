@@ -26,25 +26,30 @@ const DisplayDiscogsRecord = () => {
 
     useEffect(() => {
         const unpackRecord = async () => {
-            setRecord(JSON.parse(localStorage.getItem("Record")));
-
-            localStorage.removeItem("Record");
-
-            console.log(auth.token);
 
             try {
+
+                const record = await axios.post(`${apiHostURL}/api/discogs/convertRecord`, JSON.parse(localStorage.getItem("Record")), {
+                    headers: {
+                        Authorization: `Bearer ${auth.token}`
+                    }
+                });
+
                 const res = await axios.get(`${apiHostURL}/api/collectors/currentCollector`, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`
                     }
                 })
 
+                setRecord(record.data);
                 setCollector(res.data);
                 setCollectorRecords(res.data.records);
+                
             } catch (err) {
                 console.error(err.message ? err.message : err.response);
             }
-
+            
+            localStorage.removeItem("Record");
             setLoading(false);
         }
 
