@@ -81,6 +81,28 @@ const DiscogsSearch = () => {
         
     }
 
+    const onClick = async () => {
+        try {
+            const convertedRecords = await axios.post(`${apiHostURL}/api/discogs/convertBulkRecords`, searchResults, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            });
+
+            // console.log(convertedRecords.data);
+
+            const saveRecords = await axios.post(`${apiHostURL}/api/records/bulkAddRecords_Artists`, convertedRecords.data, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            });
+
+            navigate("/records");
+        } catch (err) {
+            console.error(err.message ? err.message : err.response);
+        }
+    }
+
 
     return(
         <Container>
@@ -98,9 +120,14 @@ const DiscogsSearch = () => {
             {loading ?
                 <InlineInputContainer/>
                 :
-                searchResults.map(record => {
-                    return <DiscogsRecord discogsRecord={record} onSelect={onSelect}/>
-                })
+                <Container>
+                    {searchResults.map(record => {
+                        return <DiscogsRecord discogsRecord={record} onSelect={onSelect}/>
+                    })}
+    
+                    <Button onClick={onClick}>Save All</Button>
+
+                </Container>
             }
         </Container>
     )
