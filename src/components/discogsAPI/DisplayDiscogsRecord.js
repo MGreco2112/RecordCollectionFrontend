@@ -17,6 +17,8 @@ const DisplayDiscogsRecord = () => {
 
     const [record, setRecord] = useState({});
 
+    const [artist, setArtist] = useState({});
+
     const [loading, setLoading] = useState(true);
 
     const [auth] = useContext(AuthContext);
@@ -148,7 +150,92 @@ const DisplayDiscogsRecord = () => {
                 post new artist, post new record, join both
         */
 
+        let artistExistsInRepo = false;
+
+        try {
+            const compareArtistsList = await axios.get(`${apiHostURL}/api/records/artistExists/${record.artist.artistName}`, {
+                headers : {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            });
+
+            if (compareArtistsList.length != 0) {
+                artistExistsInRepo = artistCheck(compareArtistsList);
+            }
+
+        } catch (err) {
+            console.error(err.message ? err.message : err.response);
+        }
+
+        if (artistExistsInRepo) {
+            try {
+                const savedRecord = await axios.post(`${apiHostURL}/ap/records`, record, {
+                    headers: {
+                        Authorization: `Bearer ${auth.token}`
+                    }
+                });
+
+                navigate(`/records`);
+            } catch (err) {
+                console.error(err.message ? err.message : err.response);
+            }
+        } else {
+            saveArtist(record.artist);
+
+            setRecord({
+                ...record,
+                artist: null
+            });
+
+            try {
+                //post new artist and record
+                //get ids of both and post to join route
+                //navigate to /records
+
+                const newRecord = await axios.post(`${apiHostURL}/api/records`, record, {
+                    headers: {
+                        Authorization: `Bearer ${auth.token}`
+                    }
+                });
+
+                const newArtist = await axios.post(`${apiHostURL}/api/records/artist`, artist, {
+                    headers: {
+                        Authorization: `Bearer ${auth.token}`
+                    }
+                });
+
+                const recordArtistIds = {
+                    recordId: newRecord.data.id,
+                    artistId: newArtist.data.id
+                };
+
+                const joinCreated = await axios.post(`${apiHostURL}/api/records/artistAdd`, recordArtistIds, {
+                    headers: {
+                        Authorization: `Bearer ${auth.token}`
+                    }
+                });
+
+                navigate(`/records`);
+            } catch (err) {
+                console.error(err.message ? err.message : err.response);
+            }
+        }
+
         
+    }
+
+    const artistCheck = (compareArtistsList) => {
+        for (let i = 0; i < compareArtistsList.length; i++) {
+            if (_.isEqual(compareArtistsList[i], record.artist)) {
+                setRecord({
+                    ...record,
+                    artist: compareArtistsList[i]
+                });
+                return true;
+            }
+        }
+
+        return false;
     }
 
     const _handleSubmit = async () => {
@@ -189,6 +276,10 @@ const DisplayDiscogsRecord = () => {
         }
 
         navigate(`/collector/${auth.profile.username}`);
+    }
+
+    const saveArtist = (newArtist) => {
+        setArtist(newArtist);
     }
 
     const onSelectCollector = (user) => {
