@@ -10,6 +10,7 @@ import Form from "../common/Form";
 import Collector from "../Collector/Collector";
 import Checkbox from "../common/Checkbox";
 import InlineInputContainer from "../common/InlineInputContainer";
+import _ from "lodash";
 
 const DisplayDiscogsRecord = () => {
     const navigate = useNavigate();
@@ -99,6 +100,55 @@ const DisplayDiscogsRecord = () => {
                 </InlineInputContainer>
             </Form>
         )
+    }
+
+    const formatRepositoryButton = async () => {
+        /*
+            call backend with name of record
+            if backend returns null or not this record
+                return a button that will save this to repo
+        */
+
+        let databaseHasRecord = false;
+
+        try {
+
+            const sameNameRecordsArr = await axios.get(`${apiHostURL}/api/records/recordExists/${record.name}`, {
+                headers: {
+                    Authorization: `Bearer: ${auth.token}`
+                }
+            });
+
+            if (sameNameRecordsArr.length != 0) {
+                for (let i = 0; i < sameNameRecordsArr.length; i++) {
+                    if (_.isEqual(sameNameRecordsArr[i], record)) {
+                        databaseHasRecord = true;
+                        break;
+                    }
+                }
+            }
+
+        } catch (err) {
+            console.error(err.message ? err.message : err.response);
+        }
+
+        return(databaseHasRecord ?
+            <Button onClick={_handleSaveRepo}>Save To Repository</Button>
+            :
+            <InlineInputContainer/>        
+        );
+    }
+
+    const _handleSaveRepo = async () => {
+        /*
+            call backend for artists of same name as record artist
+            if sameNameArr.length != 0 && sameNameArr[i] == record artist
+                set that artist instead, then save both
+            else
+                post new artist, post new record, join both
+        */
+
+        
     }
 
     const _handleSubmit = async () => {
