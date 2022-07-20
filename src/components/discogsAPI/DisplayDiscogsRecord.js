@@ -357,7 +357,7 @@ const DisplayDiscogsRecord = () => {
                             {formatCheckbox()}
                         </div>
                         <div style={{flexDirection: 'column', alignItems: 'center'}}>
-                            {formatRepositoryButton()}
+                            {/* {formatRepositoryButton()} */}
                         </div>
                     </div>
                 </div>
