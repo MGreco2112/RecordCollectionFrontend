@@ -52,7 +52,7 @@ const DisplayDiscogsRecord = () => {
                 console.error(err.message ? err.message : err.response);
             }
             
-            localStorage.removeItem("Record");
+            // localStorage.removeItem("Record");
             setLoading(false);
         }
 
@@ -104,15 +104,8 @@ const DisplayDiscogsRecord = () => {
         )
     }
 
-    const formatRepositoryButton = async () => {
-        /*
-            call backend with name of record
-            if backend returns null or not this record
-                return a button that will save this to repo
-        */
-
-        let databaseHasRecord = false;
-
+    const checkDatabaseForRecord = async () => {
+        
         try {
 
             const sameNameRecordsArr = await axios.get(`${apiHostURL}/api/records/recordExists/${record.name}`, {
@@ -121,21 +114,35 @@ const DisplayDiscogsRecord = () => {
                 }
             });
 
-            if (sameNameRecordsArr.length != 0) {
-                for (let i = 0; i < sameNameRecordsArr.length; i++) {
-                    if (_.isEqual(sameNameRecordsArr[i], record)) {
-                        databaseHasRecord = true;
-                        break;
+
+            if (sameNameRecordsArr.data.length != 0) {
+                for (let i = 0; i < sameNameRecordsArr.data.length; i++) {
+                    if (_.isEqual(sameNameRecordsArr.data[i], record)) {
+                        return true;
                     }
                 }
+
+                return false;
             }
 
         } catch (err) {
             console.error(err.message ? err.message : err.response);
         }
+    }
+
+    const formatRepositoryButton = () => {
+        /*
+            call backend with name of record
+            if backend returns null or not this record
+                return a button that will save this to repo
+        */
+
+        let databaseHasRecord = checkDatabaseForRecord();
 
         return(databaseHasRecord ?
-            <Button onClick={_handleSaveRepo}>Save To Repository</Button>
+            <Container>
+                <Button onClick={_handleSaveRepo}>Save To Repository</Button>
+            </Container>
             :
             <InlineInputContainer/>        
         );
@@ -338,8 +345,10 @@ const DisplayDiscogsRecord = () => {
                         <div style={{flexDirection: 'column', alignItems: 'center'}}>
                             {formatCheckbox()}
                         </div>
+                        <div style={{flexDirection: 'column', alignItems: 'center'}}>
+                            {formatRepositoryButton()}
+                        </div>
                     </div>
-                
                 </div>
             </Container>
             
