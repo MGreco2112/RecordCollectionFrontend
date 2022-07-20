@@ -47,7 +47,7 @@ const DiscogsSearch = () => {
 
     const _searchByQuery = async (searchQuery) => {
         if (auth.token) {
-            console.log(true);
+            // console.log(true);
             try {
                 const discogsSearch = await axios.get(`${apiHostURL}/api/discogs/searchRecords/${searchQuery}`, {
                     headers: {

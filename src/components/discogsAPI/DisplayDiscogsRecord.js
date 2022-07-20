@@ -21,6 +21,8 @@ const DisplayDiscogsRecord = () => {
 
     const [loading, setLoading] = useState(true);
 
+    const [sameNameRecordsArr, setSameNameRecordsArr] = useState([]);
+
     const [auth] = useContext(AuthContext);
 
     const [collectorRecords, setCollectorRecords] = useState([]);
@@ -42,17 +44,24 @@ const DisplayDiscogsRecord = () => {
                     headers: {
                         Authorization: `Bearer ${auth.token}`
                     }
-                })
+                });
+
+                // const recordExists = await axios.post(`${apiHostURL}/api/records/recordExists`, {name: JSON.parse(localStorage.getItem("Record")).name}, {
+                //     headers: {
+                //         Authorization: `Bearer: ${auth.token}`
+                //     }
+                // });
 
                 setRecord(record.data);
                 setCollector(res.data);
                 setCollectorRecords(res.data.records);
+                // setSameNameRecordsArr(recordExists.data);
                 
             } catch (err) {
                 console.error(err.message ? err.message : err.response);
             }
             
-            // localStorage.removeItem("Record");
+            localStorage.removeItem("Record");
             setLoading(false);
         }
 
@@ -108,22 +117,22 @@ const DisplayDiscogsRecord = () => {
         
         try {
 
-            const sameNameRecordsArr = await axios.get(`${apiHostURL}/api/records/recordExists/${record.name}`, {
-                headers: {
-                    Authorization: `Bearer: ${auth.token}`
-                }
-            });
+            // const sameNameRecordsArr = await axios.get(`${apiHostURL}/api/records/recordExists/${record.name}`, {
+            //     headers: {
+            //         Authorization: `Bearer: ${auth.token}`
+            //     }
+            // });
 
 
-            if (sameNameRecordsArr.data.length != 0) {
-                for (let i = 0; i < sameNameRecordsArr.data.length; i++) {
-                    if (_.isEqual(sameNameRecordsArr.data[i], record)) {
-                        return true;
-                    }
-                }
+            // if (sameNameRecordsArr.data.length != 0) {
+            //     for (let i = 0; i < sameNameRecordsArr.data.length; i++) {
+            //         if (_.isEqual(sameNameRecordsArr.data[i], record)) {
+            //             return true;
+            //         }
+            //     }
 
-                return false;
-            }
+            //     return false;
+            // }
 
         } catch (err) {
             console.error(err.message ? err.message : err.response);
@@ -137,7 +146,9 @@ const DisplayDiscogsRecord = () => {
                 return a button that will save this to repo
         */
 
-        let databaseHasRecord = checkDatabaseForRecord();
+        // let databaseHasRecord = checkDatabaseForRecord();
+
+        let databaseHasRecord = true;
 
         return(databaseHasRecord ?
             <Container>
