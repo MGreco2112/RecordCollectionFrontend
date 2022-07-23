@@ -34,7 +34,9 @@ const NewRecord = (props) => {
     };
 
     const onSubmit = () => {
-        newRecord.nameFormatted = newRecord.name.replaceAll(" ", "_");
+        newRecord.nameFormatted = newRecord.name.replaceAll(" ", "_")
+                                                .replace("\"", "")
+                                                .replace("\'", "");
 
         newRecord.tracks = newRecord.unformattedTracks.split(":");
         
