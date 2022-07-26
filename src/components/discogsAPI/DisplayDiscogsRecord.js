@@ -17,6 +17,8 @@ const DisplayDiscogsRecord = () => {
 
     const [record, setRecord] = useState({});
 
+    const [discogsArtist, setDiscogsArtist] = useState({});
+
     const [artist, setArtist] = useState({});
 
     const [loading, setLoading] = useState(true);
@@ -46,21 +48,14 @@ const DisplayDiscogsRecord = () => {
                     }
                 });
 
-                // const recordExists = await axios.post(`${apiHostURL}/api/records/recordExists`, {name: JSON.parse(localStorage.getItem("Record")).name}, {
-                //     headers: {
-                //         Authorization: `Bearer: ${auth.token}`
-                //     }
-                // });
-
                 setRecord(record.data);
                 setCollector(res.data);
                 setCollectorRecords(res.data.records);
-                // setSameNameRecordsArr(recordExists.data);
                 
             } catch (err) {
                 console.error(err.message ? err.message : err.response);
             }
-            
+            console.log(JSON.parse(localStorage.getItem("Record")));
             localStorage.removeItem("Record");
             setLoading(false);
         }
@@ -107,154 +102,13 @@ const DisplayDiscogsRecord = () => {
                 <InlineInputContainer>
                     <Checkbox style={{minWidth: '20px', width: '5%', minHeight: '0vh'}} id={"box1"} name={"ownedRecord"} value={true}
                         checked={isChecked} label= {isChecked ? "In your Collection" : "Click to add to Collection"}/>
-                    <Button>Submit</Button>
+                    <Button>{isChecked ? "Submit" : "Add To Repository"}</Button>
                 </InlineInputContainer>
             </Form>
         )
     }
 
-    const checkDatabaseForRecord = async () => {
-        
-        try {
-
-            // const sameNameRecordsArr = await axios.get(`${apiHostURL}/api/records/recordExists/${record.name}`, {
-            //     headers: {
-            //         Authorization: `Bearer: ${auth.token}`
-            //     }
-            // });
-
-
-            // if (sameNameRecordsArr.data.length != 0) {
-            //     for (let i = 0; i < sameNameRecordsArr.data.length; i++) {
-            //         if (_.isEqual(sameNameRecordsArr.data[i], record)) {
-            //             return true;
-            //         }
-            //     }
-
-            //     return false;
-            // }
-
-        } catch (err) {
-            console.error(err.message ? err.message : err.response);
-        }
-    }
-
-    const formatRepositoryButton = () => {
-        /*
-            call backend with name of record
-            if backend returns null or not this record
-                return a button that will save this to repo
-        */
-
-        // let databaseHasRecord = checkDatabaseForRecord();
-
-        let databaseHasRecord = true;
-
-        return(databaseHasRecord ?
-            <Container>
-                <Button onClick={_handleSaveRepo}>Save To Repository</Button>
-            </Container>
-            :
-            <InlineInputContainer/>        
-        );
-    }
-
-    const _handleSaveRepo = async () => {
-        /*
-            call backend for artists of same name as record artist
-            if sameNameArr.length != 0 && sameNameArr[i] == record artist
-                set that artist instead, then save both
-            else
-                post new artist, post new record, join both
-        */
-
-        let artistExistsInRepo = false;
-
-        try {
-            const compareArtistsList = await axios.get(`${apiHostURL}/api/records/artistExists/${record.artist.artistName}`, {
-                headers : {
-                    Authorization: `Bearer ${auth.token}`
-                }
-            });
-
-            if (compareArtistsList.length != 0) {
-                artistExistsInRepo = artistCheck(compareArtistsList);
-            }
-
-        } catch (err) {
-            console.error(err.message ? err.message : err.response);
-        }
-
-        if (artistExistsInRepo) {
-            try {
-                const savedRecord = await axios.post(`${apiHostURL}/ap/records`, record, {
-                    headers: {
-                        Authorization: `Bearer ${auth.token}`
-                    }
-                });
-
-                navigate(`/records`);
-            } catch (err) {
-                console.error(err.message ? err.message : err.response);
-            }
-        } else {
-            saveArtist(record.artist);
-
-            setRecord({
-                ...record,
-                artist: null
-            });
-
-            try {
-                //post new artist and record
-                //get ids of both and post to join route
-                //navigate to /records
-
-                const newRecord = await axios.post(`${apiHostURL}/api/records`, record, {
-                    headers: {
-                        Authorization: `Bearer ${auth.token}`
-                    }
-                });
-
-                const newArtist = await axios.post(`${apiHostURL}/api/records/artist`, artist, {
-                    headers: {
-                        Authorization: `Bearer ${auth.token}`
-                    }
-                });
-
-                const recordArtistIds = {
-                    recordId: newRecord.data.id,
-                    artistId: newArtist.data.id
-                };
-
-                const joinCreated = await axios.post(`${apiHostURL}/api/records/artistAdd`, recordArtistIds, {
-                    headers: {
-                        Authorization: `Bearer ${auth.token}`
-                    }
-                });
-
-                navigate(`/records`);
-            } catch (err) {
-                console.error(err.message ? err.message : err.response);
-            }
-        }
-
-        
-    }
-
-    const artistCheck = (compareArtistsList) => {
-        for (let i = 0; i < compareArtistsList.length; i++) {
-            if (_.isEqual(compareArtistsList[i], record.artist)) {
-                setRecord({
-                    ...record,
-                    artist: compareArtistsList[i]
-                });
-                return true;
-            }
-        }
-
-        return false;
-    }
+    // 
 
     const _handleSubmit = async () => {
         if (document.getElementById("box1").checked) {
@@ -343,8 +197,15 @@ const DisplayDiscogsRecord = () => {
                         }}>
                     <img src={record.imageLink}/>
 
-                    <h2>Track Listing:</h2>
-                    {formatTracks()}
+                    {record.tracks ?
+                        <Container>
+                            <h2>Track Listing:</h2>
+                            {formatTracks()}
+                        </Container>
+                        
+                    :
+                        <InlineInputContainer/>
+                    }
 
                     <div style={{
                         flexDirection: 'row'
@@ -355,9 +216,6 @@ const DisplayDiscogsRecord = () => {
                         </div>
                         <div style={{flexDirection: 'column', alignItems: 'center'}}>
                             {formatCheckbox()}
-                        </div>
-                        <div style={{flexDirection: 'column', alignItems: 'center'}}>
-                            {/* {formatRepositoryButton()} */}
                         </div>
                     </div>
                 </div>
