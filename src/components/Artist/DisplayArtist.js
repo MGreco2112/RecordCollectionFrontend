@@ -7,6 +7,7 @@ import Container from '../common/Container';
 import Record from '../Records/Record';
 import axios from 'axios';
 import Button from '../common/Button';
+import InlineInputContainer from '../common/InlineInputContainer';
 
 const DisplayArtist = (props) => {
     
@@ -111,12 +112,18 @@ const DisplayArtist = (props) => {
                     }
             </div>
 
-
+                
                 <h2>Members:</h2>
+                {artist.members ?
+                    <Container>
+                        {artist.members.map(member => {
+                            return <p>{member}</p>
+                        })}
 
-                {artist.members.map(member => {
-                    return <p>{member}</p>
-                })}
+                    </Container>
+                :
+                    <InlineInputContainer/>
+                }
 
                 <h2>Records</h2>
 

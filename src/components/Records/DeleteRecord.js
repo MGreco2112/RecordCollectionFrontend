@@ -43,7 +43,7 @@ const DeleteRecord = (props) => {
     }, [auth]);
 
     return(
-        <h1>Delete Record</h1>
+        <h1></h1>
     )
 }
 

@@ -10,13 +10,20 @@ import Form from "../common/Form";
 import Collector from "../Collector/Collector";
 import Checkbox from "../common/Checkbox";
 import InlineInputContainer from "../common/InlineInputContainer";
+import _ from "lodash";
 
 const DisplayDiscogsRecord = () => {
     const navigate = useNavigate();
 
     const [record, setRecord] = useState({});
 
+    const [discogsArtist, setDiscogsArtist] = useState({});
+
+    const [artist, setArtist] = useState({});
+
     const [loading, setLoading] = useState(true);
+
+    const [sameNameRecordsArr, setSameNameRecordsArr] = useState([]);
 
     const [auth] = useContext(AuthContext);
 
@@ -39,7 +46,7 @@ const DisplayDiscogsRecord = () => {
                     headers: {
                         Authorization: `Bearer ${auth.token}`
                     }
-                })
+                });
 
                 setRecord(record.data);
                 setCollector(res.data);
@@ -48,7 +55,7 @@ const DisplayDiscogsRecord = () => {
             } catch (err) {
                 console.error(err.message ? err.message : err.response);
             }
-            
+            console.log(JSON.parse(localStorage.getItem("Record")));
             localStorage.removeItem("Record");
             setLoading(false);
         }
@@ -95,11 +102,13 @@ const DisplayDiscogsRecord = () => {
                 <InlineInputContainer>
                     <Checkbox style={{minWidth: '20px', width: '5%', minHeight: '0vh'}} id={"box1"} name={"ownedRecord"} value={true}
                         checked={isChecked} label= {isChecked ? "In your Collection" : "Click to add to Collection"}/>
-                    <Button>Submit</Button>
+                    <Button>{isChecked ? "Submit" : "Add To Repository"}</Button>
                 </InlineInputContainer>
             </Form>
         )
     }
+
+    // 
 
     const _handleSubmit = async () => {
         if (document.getElementById("box1").checked) {
@@ -139,6 +148,10 @@ const DisplayDiscogsRecord = () => {
         }
 
         navigate(`/collector/${auth.profile.username}`);
+    }
+
+    const saveArtist = (newArtist) => {
+        setArtist(newArtist);
     }
 
     const onSelectCollector = (user) => {
@@ -184,8 +197,15 @@ const DisplayDiscogsRecord = () => {
                         }}>
                     <img src={record.imageLink}/>
 
-                    <h2>Track Listing:</h2>
-                    {formatTracks()}
+                    {record.tracks ?
+                        <Container>
+                            <h2>Track Listing:</h2>
+                            {formatTracks()}
+                        </Container>
+                        
+                    :
+                        <InlineInputContainer/>
+                    }
 
                     <div style={{
                         flexDirection: 'row'
@@ -198,7 +218,6 @@ const DisplayDiscogsRecord = () => {
                             {formatCheckbox()}
                         </div>
                     </div>
-                
                 </div>
             </Container>
             
