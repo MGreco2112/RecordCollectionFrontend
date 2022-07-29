@@ -59,7 +59,7 @@ const NewArtist = (props) => {
                 }
             });
 
-            navigate(`/artists/${newArtist.artistNameFormatted}`);
+            navigate(`/records/${artistAdd.data.nameFormatted}`);
         } catch (err) {
             console.error(err.message ? err.message : err.response);
         }
