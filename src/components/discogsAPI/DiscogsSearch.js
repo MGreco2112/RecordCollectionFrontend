@@ -125,7 +125,7 @@ const DiscogsSearch = () => {
                         return <DiscogsRecord discogsRecord={record} onSelect={onSelect}/>
                     })}
     
-                    {/* <Button onClick={onClick}>Save All</Button> */}
+                    <Button onClick={onClick}>Save All</Button>
 
                 </Container>
             }

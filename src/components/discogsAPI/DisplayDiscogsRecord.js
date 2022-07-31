@@ -91,6 +91,8 @@ const DisplayDiscogsRecord = () => {
         let isChecked = false;
 
         for (let i = 0; i < collectorRecords.length; i++) {
+
+            //todo format to work with same name records
             if (collectorRecords[i].name === record.name) {
                 isChecked = true;
                 break;

@@ -118,7 +118,7 @@ const DisplayRecord = (props) => {
     const formatComments = () => {
         return(
             record.comments.map(comment => {
-                if (comment.collector.name === collector.name) {
+                if (comment.collector.nameFormatted === collector.nameFormatted) {
                     postableComment = false;
                 }
                 return <p>{"Collector: " + comment.collector.name + ", Comment: "} {comment.userComment}</p>
