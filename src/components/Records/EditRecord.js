@@ -25,7 +25,9 @@ const EditRecord = (props) => {
         imageLink: ""
     });
 
-    let loading = true;
+    const [trackNames, setTrackNames] = useState([]);
+
+    let [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -37,6 +39,8 @@ const EditRecord = (props) => {
 
             console.log(params);
 
+            const filteredTracks = [];
+
             try {
                 const res = await axios.get(`${apiHostURL}/api/records/${params.editRecord}`, {
                     headers: {
@@ -47,7 +51,12 @@ const EditRecord = (props) => {
                 console.log(res.data);
                 setEditRecord(res.data);
 
-                loading = false;
+                for (let i = 0; i < res.data.tracks.length; i++) {
+                    filteredTracks.push(res.data.tracks[i].title);
+                }
+
+                setTrackNames(filteredTracks);
+                setLoading(false);
     
             } catch (err) {
                 console.error(err.message ? err.message : err.response);
@@ -67,9 +76,13 @@ const EditRecord = (props) => {
     const onSubmit = () => {
         editRecord.nameFormatted = editRecord.name.replaceAll(" ", "_");
 
-        const tracksFormatted = editRecord.tracks.toString().split(",");
+        const tracksFormatted = trackNames.toString().split(",");
 
-        editRecord.tracks = tracksFormatted;
+        for (let i = 0; i < tracksFormatted.length; i++) {
+            if (tracksFormatted[i] != editRecord.tracks[i].title) {
+                editRecord.tracks[i].title = tracksFormatted[i]
+            }
+        }
 
         _putRecord(editRecord);
     }
@@ -92,6 +105,8 @@ const EditRecord = (props) => {
         <Container>
             <h1>Edit A Record Listing</h1>
             { loading ?
+                <h2>Loading...</h2>
+                :
                 <Form onSubmit={onSubmit} style={{marginTop: '1em'}}>
                     <InlineInputContainer>
                         <Input
@@ -127,7 +142,7 @@ const EditRecord = (props) => {
                         <Input
                             name="tracks"
                             id="tracks"
-                            value={editRecord.tracks}
+                            value={trackNames}
                             onChange={handleChange}
                             label={"Track Listing"}
                             required
@@ -145,8 +160,6 @@ const EditRecord = (props) => {
                     </InlineInputContainer>
                     <Button>Submit</Button>
                 </Form>
-                 : 
-                <h2>Loading...</h2>
             }
         </Container>
     )
