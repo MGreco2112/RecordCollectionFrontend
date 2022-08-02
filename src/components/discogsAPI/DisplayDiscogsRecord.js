@@ -70,7 +70,7 @@ const DisplayDiscogsRecord = () => {
         return(
             
             record.tracks.map(track => {
-                return <p>{track}</p>
+                return <p>{track.title}</p>
             })
         )
     }
