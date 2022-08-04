@@ -73,6 +73,10 @@ const EditRecord = (props) => {
         });
     }
 
+    // const handleTrackChange = (e) => {
+    //     setTrackNames([...trackNames, e.target.value]);
+    // }
+
     const onSubmit = () => {
         editRecord.nameFormatted = editRecord.name.replaceAll(" ", "_");
 
@@ -143,7 +147,7 @@ const EditRecord = (props) => {
                             name="tracks"
                             id="tracks"
                             value={trackNames}
-                            onChange={handleChange}
+                            // onChange={}
                             label={"Track Listing"}
                             required
                         />
@@ -160,6 +164,17 @@ const EditRecord = (props) => {
                     </InlineInputContainer>
                     <Button>Submit</Button>
                 </Form>
+
+                /**
+                Create new Form below for editing Tracks
+                Each Track field will have a spot for an ID and a Title
+                IDs will range from 1 - X where X is number of tracks; this is for sorting to backend, not for database
+                Editing the Title will modify the Object Title field
+                Each Track field will have a button to insert a new Track between it and the next Track
+                    This will auto increment the IDs of each track below
+                OnSubmit the Track Objects will be placed into an Array and sent to Backend via Put for processing 
+                
+                 */
             }
         </Container>
     )

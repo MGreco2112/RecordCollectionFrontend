@@ -182,6 +182,7 @@ const EditCollector = (props) => {
                 <Form onSubmit={onSubmit} style={{marginTop: '1em'}}>
                     <InlineInputContainer>
                         <Input
+                        //TODO fix so auth is updated
                             name="username"
                             id="username"
                             value={editUser.username}

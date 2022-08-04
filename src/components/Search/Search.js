@@ -65,6 +65,7 @@ const Search = (props) => {
         console.log(checkedButtons);
         for (let i = 0; i < checkedButtons.length; i++) {
             if (checkedButtons[i].checked) {
+                setLoading(true);
                 console.log(checkedButtons[i].value + " checked Button check");
                 setSearchQueryUrl({
                                     ...searchQueryUrl,
@@ -98,9 +99,8 @@ const Search = (props) => {
     }
 
     return(
-        <Container style={{maxHeight: ''}}>
-            {loading ?
-                <Form onSubmit={handleSubmit}>
+        <Container>
+            <Form onSubmit={handleSubmit}>
                     <InlineInputContainer>
                         <Input
                             id="query"
@@ -118,6 +118,8 @@ const Search = (props) => {
                     </InlineInputContainer>
                    
                 </Form>
+            {loading ?
+                <InlineInputContainer/>
                 :
                 displayResults(queryResult)
             }
