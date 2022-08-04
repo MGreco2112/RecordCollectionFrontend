@@ -49,6 +49,7 @@ const DisplayDiscogsRecord = () => {
                 });
 
                 setRecord(record.data);
+                console.log(record.data);
                 setCollector(res.data);
                 setCollectorRecords(res.data.records);
                 
