@@ -12,7 +12,7 @@ const Artist = (props) => {
     const mapMembers = () => {
         return (
             members.map(member => {
-                return <p>{member}</p>
+                return <p>{member.name}</p>
             })
         )
     }

@@ -23,6 +23,8 @@ const EditArtist = (props) => {
         members: []
     });
 
+    const [membersArray, setMembersArray] = useState([]);
+
     let loading = true;
 
     useEffect(async () => {
@@ -37,7 +39,15 @@ const EditArtist = (props) => {
                     }
                 });
 
+                
+                const namesArr = [];
+                
+                for (let i = 0; i < res.data.members.length; i++) {
+                    namesArr.push(res.data.members[i].name);
+                }
+                
                 setEditArtist(res.data);
+                setMembersArray(namesArr);
                 console.log(res.data);
                 loading = false;
 
@@ -57,7 +67,7 @@ const EditArtist = (props) => {
     const onSubmit = () => {
         editArtist.artistNameFormatted = editArtist.artistName.replaceAll(" ", "_");
 
-        const membersFormatted = editArtist.members.toString().split(",");
+        const membersFormatted = namesArr.toString().split(",");
 
         editArtist.members = membersFormatted;
 
@@ -101,7 +111,7 @@ const EditArtist = (props) => {
                         <Input
                             name="members"
                             id="members"
-                            value={editArtist.members}
+                            value={namesArr}
                             onChange={handleChange}
                             label="Members"
                             required

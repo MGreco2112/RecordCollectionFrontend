@@ -117,7 +117,7 @@ const DisplayArtist = (props) => {
                 {artist.members ?
                     <Container>
                         {artist.members.map(member => {
-                            return <p>{member}</p>
+                            return <p>{member.name}</p>
                         })}
 
                     </Container>
