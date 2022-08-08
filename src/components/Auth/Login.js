@@ -33,6 +33,7 @@ const Login = (props) => {
         }
 
         if (searchParams.get("oauth_token")) {
+            console.log(true);
             loadCreds();
         }
     }, [searchParams])
@@ -70,7 +71,7 @@ const Login = (props) => {
 
             saveAuth(res.data);
             
-            if (discogsCreds.discogsToken) {
+            if (discogsCreds.token) {
 
                 const authorizeToken = await axios.post(`${apiHostURL}/api/auth/discogsAccessToken`, discogsCreds);
 

@@ -99,7 +99,7 @@ const EditRecord = (props) => {
                 }
             });
 
-            navigate(`/records/${editRecord.nameFormatted}`);
+            navigate(`/records`);
         } catch (err) {
             console.error(err.message ? err.message : err.response);
         }
