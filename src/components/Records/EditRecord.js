@@ -25,8 +25,6 @@ const EditRecord = (props) => {
         imageLink: ""
     });
 
-    const [trackNames, setTrackNames] = useState([]);
-
     let [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
@@ -39,8 +37,6 @@ const EditRecord = (props) => {
 
             console.log(params);
 
-            const filteredTracks = [];
-
             try {
                 const res = await axios.get(`${apiHostURL}/api/records/${params.editRecord}`, {
                     headers: {
@@ -50,12 +46,6 @@ const EditRecord = (props) => {
                 
                 console.log(res.data);
                 setEditRecord(res.data);
-
-                for (let i = 0; i < res.data.tracks.length; i++) {
-                    filteredTracks.push(res.data.tracks[i].title);
-                }
-
-                setTrackNames(filteredTracks);
                 setLoading(false);
     
             } catch (err) {
@@ -72,10 +62,6 @@ const EditRecord = (props) => {
             [e.target.id]: e.target.value
         });
     }
-
-    // const handleTrackChange = (e) => {
-    //     setTrackNames([...trackNames, e.target.value]);
-    // }
 
     const onSubmit = () => {
         editRecord.nameFormatted = editRecord.name.replaceAll(" ", "_");
@@ -146,8 +132,8 @@ const EditRecord = (props) => {
                         <Input
                             name="tracks"
                             id="tracks"
-                            value={trackNames}
-                            // onChange={}
+                            value={editRecord.tracks}
+                            onChange={handleChange}
                             label={"Track Listing"}
                             required
                         />
