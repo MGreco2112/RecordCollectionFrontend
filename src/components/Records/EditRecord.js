@@ -38,7 +38,7 @@ const EditRecord = (props) => {
             console.log(params);
 
             try {
-                const res = await axios.get(`${apiHostURL}/api/records/editAccess/${params.editRecord}`, {
+                const res = await axios.get(`${apiHostURL}/api/records/accessEdit/${params.editRecord}`, {
                     headers: {
                         Authorization: `Bearer ${auth.token}`
                     }
@@ -66,13 +66,7 @@ const EditRecord = (props) => {
     const onSubmit = () => {
         editRecord.nameFormatted = editRecord.name.replaceAll(" ", "_");
 
-        const tracksFormatted = editRecord.tracks.toString().split(",");
-
-        for (let i = 0; i < tracksFormatted.length; i++) {
-            if (tracksFormatted[i] != editRecord.tracks[i].title) {
-                editRecord.tracks[i].title = tracksFormatted[i]
-            }
-        }
+        editRecord.tracks = editRecord.tracks.toString().split(",");
 
         _putRecord(editRecord);
     }
