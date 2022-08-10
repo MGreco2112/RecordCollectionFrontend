@@ -76,7 +76,7 @@ const EditArtist = (props) => {
                 }
             })
 
-            navigate(`/artists/${editArtist.artistNameFormatted}`);
+            navigate(`/artists/${res.data.artistNameFormatted}`);
         } catch (err) {
             console.error(err.message ? err.message : err.response);
         }
@@ -93,6 +93,7 @@ const EditArtist = (props) => {
                             name="artistName"
                             id="artistName"
                             value={editArtist.artistName}
+                            placeholder="Enter Artist Name"
                             onChange={handleChange}
                             label="Artist Name"
                             required
@@ -103,6 +104,7 @@ const EditArtist = (props) => {
                             name="members"
                             id="members"
                             value={editArtist.members}
+                            placeholder = "Enter Members Name then a Comma between"
                             onChange={handleChange}
                             label="Members"
                             required
