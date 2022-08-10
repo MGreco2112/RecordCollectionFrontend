@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-const AuthContext = React.createContext([{}, () => {}, () => {}]);
+const AuthContext = React.createContext([{}, () => {}, () => {}, () => {}]);
 
 const AuthProvider = (props) => {
     const [auth, setAuth] = useState({
@@ -25,7 +25,17 @@ const AuthProvider = (props) => {
         localStorage.setItem('Roles', JSON.stringify(newAuth.roles));
     }
 
-    // todo: move local storage check here
+    const updateAuth = (update) => {
+        localStorage.removeItem('Profile');
+        localStorage.removeItem('Roles');
+
+        localStorage.setItem('Profile', JSON.stringify({
+            "id": update.id,
+            "username": update.username
+        }));
+        localStorage.setItem('Roles', JSON.stringify(update.roles))
+    }
+
     useEffect(() => {
         
         if (localStorage['Token'] != undefined){

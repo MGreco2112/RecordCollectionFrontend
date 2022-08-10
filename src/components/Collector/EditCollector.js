@@ -16,7 +16,7 @@ const EditCollector = (props) => {
 
     const navigate = useNavigate();
 
-    const [auth] = useContext(AuthContext);
+    const [auth, setAuth, updateAuth] = useContext(AuthContext);
 
     const [editCollector, setEditCollector] = useState({
         name: "",
@@ -131,13 +131,31 @@ const EditCollector = (props) => {
                 }
             });
 
+            if (editUser.username != auth.profile.username) {
+                setAuth({
+                    ...auth,
+                    profile: {
+                        id: editUser.id,
+                        username: editUser.username
+                    },
+                    roles: editUser.roles
+                });
+
+                updateAuth(editUser);
+
+            }
+
             const putUser = await axios.put(`${apiHostURL}/api/collectors/user`, editUser, {
                 headers: {
                     Authorization: `Bearer ${auth.token}`
                 }
             });
 
-            navigate(`/collector/${auth.profile.username}`);
+            console.log(auth);
+
+            navigate("/")
+
+            // navigate(`/collector/${putUser.data.username}`);
         } catch (err) {
             console.error(err.message ? err.message : err.response);
         }
