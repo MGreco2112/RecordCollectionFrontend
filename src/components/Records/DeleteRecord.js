@@ -19,9 +19,9 @@ const DeleteRecord = (props) => {
             if (auth.token) {
                 try {
 
-                    const deletedRecord = {id: params.recId}
+                    const deletedRecord = params.recId;
     
-                    const res = await axios.delete(`${apiHostURL}/api/records/${params.recId}`, {
+                    const res = await axios.delete(`${apiHostURL}/api/records/${deletedRecord}`, {
                         headers: {
                             Authorization: `Bearer ${auth.token}`
                         }
@@ -29,7 +29,7 @@ const DeleteRecord = (props) => {
     
                     alert(`Record deleted successfully`);
     
-                    navigate(`/`);
+                    navigate(`/records`);
                 } catch (err) {
                     console.error(err.message ? err.message : err.response);
                 }

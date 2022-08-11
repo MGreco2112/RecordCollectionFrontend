@@ -80,7 +80,7 @@ const DisplayArtist = (props) => {
 
             alert(res.data);
 
-            navigate("/");
+            navigate("/artists");
 
         } catch (err) {
             console.error(err.message ? err.message : err.response);
