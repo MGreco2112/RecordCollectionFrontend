@@ -22,6 +22,7 @@ import EditCollector from "../Collector/EditCollector";
 import DeleteRecord from "../Records/DeleteRecord";
 import AdminRegister from "../Auth/AdminRegister";
 import Test from "../discogsAPI/test";
+import VerifyLogin from "../Auth/VerifyLogin";
 
 const AppRouter = (props) => {
     return (
@@ -31,6 +32,7 @@ const AppRouter = (props) => {
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/login" element={<Login/>}/>
+                <Route path="/confirmUpdates" element={<VerifyLogin/>}/>
                 <Route path="logout" element={<Logout/>}/>
                 <Route path="/register" element={<Signup/>}/>
                 <Route path="/admin/create_access_account" element={<AdminRegister/>}/>

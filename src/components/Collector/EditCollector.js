@@ -154,9 +154,12 @@ const EditCollector = (props) => {
 
             console.log(auth);
 
-            navigate("/")
+            /**
+             * navigate to new page verify login
+             */
 
-            // navigate(`/collector/${putUser.data.username}`);
+            navigate("/confirmUpdates");
+
         } catch (err) {
             console.error(err.message ? err.message : err.response);
         }
