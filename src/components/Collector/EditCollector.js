@@ -39,6 +39,8 @@ const EditCollector = (props) => {
 
     useEffect(() => {
 
+        //todo fix after username is changed
+
         const _apiCalls = async () => {
 
             if (auth.token) {
@@ -138,7 +140,6 @@ const EditCollector = (props) => {
                         id: editUser.id,
                         username: editUser.username
                     },
-                    roles: editUser.roles
                 });
 
                 updateAuth(editUser);
