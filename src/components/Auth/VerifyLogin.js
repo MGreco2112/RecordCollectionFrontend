@@ -38,7 +38,7 @@ const VerifyLogin = () => {
                     id: res.data.id,
                     username: res.data.username
                 },
-                role: res.data.roles
+                roles: res.data.roles
             });
 
             saveAuth(res.data);

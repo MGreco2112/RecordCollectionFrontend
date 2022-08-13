@@ -126,6 +126,8 @@ const EditCollector = (props) => {
     const _putUpdates = async (editCollector, editUser) => {
         console.log("changed: " + editCollector.records);
 
+        // move both calls onto verify login component and send requests only after validation succeeds
+
         try {
             const putCollector = await axios.put(`${apiHostURL}/api/collectors`, editCollector, {
                 headers: {
@@ -133,18 +135,6 @@ const EditCollector = (props) => {
                 }
             });
 
-            if (editUser.username != auth.profile.username) {
-                setAuth({
-                    ...auth,
-                    profile: {
-                        id: editUser.id,
-                        username: editUser.username
-                    },
-                });
-
-                updateAuth(editUser);
-
-            }
 
             const putUser = await axios.put(`${apiHostURL}/api/collectors/user`, editUser, {
                 headers: {
