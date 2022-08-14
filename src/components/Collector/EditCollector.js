@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useContext} from "react";
-import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { apiHostURL } from "../../config";
 import { AuthContext } from "../Providers/AuthProvider";
@@ -124,7 +123,6 @@ const EditCollector = (props) => {
     }
 
     const _putUpdates = async (editCollector, editUser) => {
-        console.log("changed: " + editCollector.records);
 
         // move both calls onto verify login component and send requests only after validation succeeds
 
