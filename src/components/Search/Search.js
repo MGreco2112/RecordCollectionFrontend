@@ -1,13 +1,13 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, {useState, useContext, useEffect, Fragment} from "react";
 import axios from "axios";
 import Button from "../common/Button";
 import Form from "../common/Form";
 import Input from "../common/Input";
 import Radio from "../common/Radio";
-import InlineInputContainer from "../common/InlineInputContainer";
 import Container from "../common/Container";
 import Record from "../Records/Record";
 import Artist from "../Artist/Artist";
+import InlineInputContainer from "../common/InlineInputContainer";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
 import { apiHostURL } from "../../config";
@@ -57,7 +57,14 @@ const Search = (props) => {
     }
 
     const handleSubmit = (e) => {
-        _searchByQuery();
+        const checkedButtons = document.getElementsByName('routeSel');
+
+        for (let i = 0; i < checkedButtons.length; i++) {
+            if (checkedButtons[i].checked) {
+                _searchByQuery();
+            }
+        }
+
     }
 
     const onClick = () => {
@@ -119,7 +126,7 @@ const Search = (props) => {
                    
                 </Form>
             {loading ?
-                <InlineInputContainer/>
+                <Fragment/>
                 :
                 displayResults(queryResult)
             }
