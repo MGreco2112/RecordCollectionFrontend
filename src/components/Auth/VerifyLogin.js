@@ -1,13 +1,24 @@
 import React, {useEffect, useState, useContext} from "react";
 import Container from "../common/Container";
-import LoginForm from "../Auth/LoginForm";
+import VerifyLoginForm from "./VerifyLoginForm"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
 import { apiHostURL } from "../../config";
-import Login from "./Login";
 
 const VerifyLogin = () => {
+    /**
+     * Have user input old login credentials
+     * send old login to backend with new user object fields
+     * if old login is valid
+     *      update user with new details
+     *      login user with new credentials via backend
+     *      return new user details and JWT to React
+     *      navigate Home
+     * else
+     *      Alert that credentaials have not been updated
+     */
+
     const [loginCreds, setLoginCreds] = useState({
         username: "",
         password: ""
@@ -54,8 +65,8 @@ const VerifyLogin = () => {
     return(
         <Container>
             <h1>Verify Changes</h1>
-            <LoginForm
-                currentUser={loginCreds}
+            <VerifyLoginForm
+                userRequest={loginCreds}
                 onChange={updateForm}
                 onSubmit={onSubmit}
             />
