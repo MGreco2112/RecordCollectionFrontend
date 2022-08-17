@@ -130,7 +130,7 @@ const DisplayRecord = (props) => {
         let isChecked = false;
 
         for (let i = 0; i < collectorRecords.length; i++) {
-            if (collectorRecords[i].name === record.name) {
+            if (collectorRecords[i].nameFormatted === record.nameFormatted) {
                 isChecked = true;
                 break;
             }
