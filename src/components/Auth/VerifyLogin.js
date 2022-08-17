@@ -2,7 +2,7 @@ import React, {useEffect, useState, useContext} from "react";
 import Container from "../common/Container";
 import VerifyLoginForm from "./VerifyLoginForm"
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
 import { apiHostURL } from "../../config";
 
@@ -19,10 +19,18 @@ const VerifyLogin = () => {
      *      Alert that credentaials have not been updated
      */
 
+    const location = useLocation();
+
     const [loginCreds, setLoginCreds] = useState({
         username: "",
         password: ""
     });
+
+    const [editCollector] = useState(location.state.collector);
+    const [editUser] = useState(location.state.user);
+
+    console.log(editCollector);
+    console.log(editUser);
 
     const [auth, setAuth, saveAuth] = useContext(AuthContext);
 
@@ -43,24 +51,56 @@ const VerifyLogin = () => {
         try {
             const res = await axios.post(`${apiHostURL}/api/auth/signin`, data);
 
-            setAuth({
-                token: res.data.token,
-                profile: {
-                    id: res.data.id,
-                    username: res.data.username
-                },
-                roles: res.data.roles
-            });
-
-            saveAuth(res.data);
-            
-            navigate("/");
+            _updateCollector(editCollector);
 
         } catch (err) {
             console.error(err.message ? err.message : err.response);
             alert("Incorrect Username or Password, try again");
         }
     }
+
+    const _updateCollector = async (updates) => {
+        try {
+            const res = await axios.put(`${apiHostURL}/api/collectors`, updates, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            });
+
+            _updateUser(editUser);
+            
+        } catch (err) {
+            console.error(err.message ? err.message : err.response);
+        }
+    }
+
+    const _updateUser = async (updates) => {
+        try {
+            const res = await axios.put(`${apiHostURL}/api/collectors/user`, updates, {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            });
+
+
+        } catch (err) {
+            console.error(err.message ? err.message : err.response);
+        }
+    }
+
+    const _loginNewUser = async (postUpdateUser) => {
+        try {
+            const res = await axios.post(`${apiHostURL}/api/auth/signin`, postUpdateUser);
+
+            setAuth(res.data);
+
+            saveAuth(res.data);
+
+            navigate("/");
+        } catch (err) {
+            console.error(err.message ? err.message : err.response);
+        }
+    } 
 
     return(
         <Container>

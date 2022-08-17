@@ -33,6 +33,7 @@ const VerifyLoginForm = (props) => {
                         value={userRequest.password}
                         placeholder={"Enter current Password"}
                         onChange={handleChange}
+                        type="password"
                         required
                     />
                 </InlineInputContainer>

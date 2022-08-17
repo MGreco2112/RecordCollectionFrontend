@@ -127,26 +127,27 @@ const EditCollector = (props) => {
         // move both calls onto verify login component and send requests only after validation succeeds
 
         try {
-            const putCollector = await axios.put(`${apiHostURL}/api/collectors`, editCollector, {
-                headers: {
-                    Authorization: `Bearer ${auth.token}`
-                }
-            });
+            // const putCollector = await axios.put(`${apiHostURL}/api/collectors`, editCollector, {
+            //     headers: {
+            //         Authorization: `Bearer ${auth.token}`
+            //     }
+            // });
 
 
-            const putUser = await axios.put(`${apiHostURL}/api/collectors/user`, editUser, {
-                headers: {
-                    Authorization: `Bearer ${auth.token}`
-                }
-            });
-
-            console.log(auth);
+            // const putUser = await axios.put(`${apiHostURL}/api/collectors/user`, editUser, {
+            //     headers: {
+            //         Authorization: `Bearer ${auth.token}`
+            //     }
+            // });
 
             /**
              * navigate to new page verify login
              */
 
-            navigate("/confirmUpdates");
+            navigate("/confirmUpdates", {state: {
+                collector: editCollector,
+                user: editUser
+            }});
 
         } catch (err) {
             console.error(err.message ? err.message : err.response);
