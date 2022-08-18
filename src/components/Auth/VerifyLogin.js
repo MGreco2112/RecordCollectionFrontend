@@ -44,15 +44,18 @@ const VerifyLogin = () => {
     }
 
     const onSubmit = () => {
-        _verifyLogin(loginCreds);
+        // const login = _verifyLogin(loginCreds);
+
+        // if (login.data) {
+            _updateCollector(editCollector);
+        // }
     }
 
     const _verifyLogin = async (data) => {
         try {
             const res = await axios.post(`${apiHostURL}/api/auth/signin`, data);
 
-            _updateCollector(editCollector);
-
+            return res;
         } catch (err) {
             console.error(err.message ? err.message : err.response);
             alert("Incorrect Username or Password, try again");
@@ -82,6 +85,7 @@ const VerifyLogin = () => {
                 }
             });
 
+            _loginNewUser(editUser);
 
         } catch (err) {
             console.error(err.message ? err.message : err.response);
@@ -89,6 +93,7 @@ const VerifyLogin = () => {
     }
 
     const _loginNewUser = async (postUpdateUser) => {
+        console.log(true);
         try {
             const res = await axios.post(`${apiHostURL}/api/auth/signin`, postUpdateUser);
 
