@@ -49,7 +49,11 @@ const Search = (props) => {
                 }
             })
             console.log(res.data);
-            setQueryResult(res.data);
+            if (res.data.length > 0) {
+                setQueryResult(res.data);
+            } else {
+                alert("Query returned 0 results");
+            }
             setLoading(false);
         } catch (err) {
             console.error(err.message);
@@ -86,15 +90,18 @@ const Search = (props) => {
 
     const displayResults = (queryResult) => {
 
-        if (searchQueryUrl.searchMode == 1) {
-            return queryResult.map(record => {
-                return <Record record={record} key={record.id} onSelect={onSelect}/>
-            })
-        } else if (searchQueryUrl.searchMode == 0) {
-            return queryResult.map(artist => {
-                return <Artist artist={artist} key={artist.id} onSelect={onSelect}/>
-            })
-        }
+            if (searchQueryUrl.searchMode == 1) {
+                return queryResult.map(record => {
+                    return <Record record={record} key={record.id} onSelect={onSelect}/>
+                })
+            } else if (searchQueryUrl.searchMode == 0) {
+                return queryResult.map(artist => {
+                    return <Artist artist={artist} key={artist.id} onSelect={onSelect}/>
+                })
+            }
+        
+
+        
     }
 
     const onSelect = (navigateToNameFormatted) => {
