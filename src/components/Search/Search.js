@@ -13,7 +13,6 @@ import { AuthContext } from "../Providers/AuthProvider";
 import { apiHostURL } from "../../config";
 
 
-
 const Search = (props) => {
     const [queryResult, setQueryResult] = useState([]);
 
@@ -35,13 +34,15 @@ const Search = (props) => {
 
             switch (searchQueryUrl.searchMode) {
                 case "0":
-                    
                     searchUrl = `${apiHostURL}/api/records/search/artist_name/${searchQueryUrl.query}`
                     break;
+                case "2":
+                    searchUrl = `${apiHostURL}/api/records/search/recordsWithTrack/${searchQueryUrl.query}`
+                    break;
                 default:
-                    console.log(true);
                     searchUrl = `${apiHostURL}/api/records/search/name/${searchQueryUrl.query}`
             }
+
 
             const res = await axios.get(searchUrl, {
                 headers: {
@@ -90,7 +91,7 @@ const Search = (props) => {
 
     const displayResults = (queryResult) => {
 
-            if (searchQueryUrl.searchMode == 1) {
+            if (searchQueryUrl.searchMode == 1 || searchQueryUrl.searchMode == 2) {
                 return queryResult.map(record => {
                     return <Record record={record} key={record.id} onSelect={onSelect}/>
                 })
@@ -105,7 +106,7 @@ const Search = (props) => {
     }
 
     const onSelect = (navigateToNameFormatted) => {
-        if (searchQueryUrl.searchMode == 1) {
+        if (searchQueryUrl.searchMode == 1 || searchQueryUrl.searchMode == 2) {
             navigate(`/records/${navigateToNameFormatted}`);
         } else if (searchQueryUrl.searchMode == 0) {
             navigate(`/artists/${navigateToNameFormatted}`);
@@ -127,8 +128,11 @@ const Search = (props) => {
                             value={searchQueryUrl.query}
                         />
                         <Button>Search</Button>
-                        <Radio id="Artist" name="routeSel" value={0} label={"Search By Artist"} onClick={onClick}/>
-                        <Radio id="Record" name="routeSel" value={1} label={"Search By Record"} onClick={onClick}/>
+                        <InlineInputContainer>
+                            <Radio id="Artist" name="routeSel" value={0} label={"Search By Artist"} onClick={onClick}/>
+                            <Radio id="Record" name="routeSel" value={1} label={"Search By Record"} onClick={onClick}/>
+                            <Radio id="Track"  name="routeSel" value={2} label={"Search By Track Title"} onClick={onClick}/>
+                        </InlineInputContainer>
                     </InlineInputContainer>
                    
                 </Form>
